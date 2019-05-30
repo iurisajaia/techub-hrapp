@@ -16,3 +16,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/tasks', function (){
+    $tasks = [
+        'Login Page For Admin',
+        'Forgot Password For Users',
+        'Admin Can Add New User'
+    ];
+
+    return response()->json(['tasks' => $tasks]);
+});

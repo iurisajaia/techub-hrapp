@@ -13,13 +13,14 @@
         /* login api */ 
 
         public function login(){ 
+          
             if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
                 $user = Auth::user(); 
                 $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-                return response()->json(['success' => $success], $this-> successStatus); 
-            } 
+                return response()->json(['success' => $success, 'user' => $user], $this-> successStatus); 
+            }
             else{ 
-                return response()->json(['error'=>'Incorrect Email Or Password'], 401); 
+                return response()->json(['error'=>'Incorrect Data'], 401); 
             } 
         }
         

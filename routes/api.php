@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 Route::middleware(['auth:api' , 'admin'])->group(function (){
     Route::get('/users', 'API\AdminController@users');
     Route::post('register', 'API\UserController@register');
-    Route::post('/makemoderator/{id}', 'API\AdminController@makemodarator');
+    Route::get('/makemoderator/{id}', 'API\AdminController@makemodarator');
 });
 Route::post('login', 'API\UserController@login');
 

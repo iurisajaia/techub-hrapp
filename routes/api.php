@@ -18,18 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['auth:api' , 'admin'])->group(function (){
-    Route::get('/tasks', function (){
-        $tasks = [
-            'Login Page For Admin',
-            'Forgot Password For Users',
-            'Admin Can Add New User'
-        ];
-    
-        return response()->json(['tasks' => $tasks]);
-    });
+    Route::get('/users', 'API\AdminController@users');
     Route::post('register', 'API\UserController@register');
 });
 Route::post('login', 'API\UserController@login');
 Route::get('test', function (){
-    return response()->json('test' => 'Test Route...');
+    return response()->json(['test' => 'Test Route...'], 200);
 });

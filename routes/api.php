@@ -31,5 +31,5 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){
 });
 Route::post('login', 'API\UserController@login');
 Route::get('test', function (){
-    return response()->json('Test Route...');
+    return response()->json('test' => 'Test Route...');
 });

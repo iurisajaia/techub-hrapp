@@ -11,4 +11,8 @@ class AdminController extends Controller
     public function users(){
         return response()->json(['users' => User::all()]);
     }
+
+    public function makemodarator(Request $request){
+        return response()->json(['user_id', $request=>all()]);
+    }
 }

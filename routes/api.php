@@ -13,15 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::middleware(['auth:api' , 'admin'])->group(function (){
     Route::get('/users', 'API\AdminController@users');
     Route::post('register', 'API\UserController@register');
+    Route::post('/makemoderator/{id}', 'API\AdminController@makemodarator');
 });
 Route::post('login', 'API\UserController@login');
+
+
+
+
+
+
 Route::get('test', function (){
     return response()->json(['test' => 'Test Route...'], 200);
 });

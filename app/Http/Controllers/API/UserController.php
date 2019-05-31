@@ -27,9 +27,9 @@
         /*  Register api */ 
         public function register(Request $request){ 
             $validator = Validator::make($request->all(), [ 
-                'name' => 'required', 
-                'email' => 'required|email', 
-                'password' => 'required', 
+                'name' => 'required|string|max:60', 
+                'email' => 'required|email|max:255', 
+                'password' => 'required|min:6|max:32', 
                 'c_password' => 'required|same:password', 
             ]);
             if ($validator->fails()) { 

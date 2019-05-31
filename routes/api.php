@@ -19,8 +19,8 @@ use Illuminate\Http\Request;
 
 Route::middleware(['auth:api' , 'admin'])->group(function (){
     Route::get('/users', 'API\AdminController@users');
+    Route::get('makemoderator/{id}', 'API\AdminController@makemoderator');
     Route::post('register', 'API\UserController@register');
-    Route::get('/makemoderator/{id}', 'API\AdminController@makemodarator');
 });
 Route::post('login', 'API\UserController@login');
 

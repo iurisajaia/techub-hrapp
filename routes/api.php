@@ -35,7 +35,7 @@ use App\User;
 
 Route::get('test', function (Request $request){
    return response()->json(['test' => User::all()], 200);
-})->middleware('cors');
-
+});
+// ->middleware('cors')
 Route::post('/getemail', 'API\SendEmailController@send');
 Route::post('/newpassword', 'API\SendEmailController@newpassword');

@@ -21,7 +21,7 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){
     Route::get('/users', 'API\AdminController@users');
     Route::post('register', 'API\UserController@register');
     Route::post('makemanager/{id}', 'API\AdminController@makemanager');
-    Route::post('makemaviewer/{id}', 'API\AdminController@makemaviewer');
+    Route::post('makeviewer/{id}', 'API\AdminController@makeviewer');
 });
 Route::post('login', 'API\UserController@login');
 

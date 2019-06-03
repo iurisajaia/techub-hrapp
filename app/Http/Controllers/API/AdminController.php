@@ -19,7 +19,7 @@ class AdminController extends Controller
         return response()->json(['user' => $user]);
     }
 
-    public function makemaviewer($id){
+    public function makeviewer($id){
         $user = User::find($id);
         $user->role = 'viewer';
         $user->save();

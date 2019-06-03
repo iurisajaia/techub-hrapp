@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::middleware(['auth:api' , 'admin', 'cors'])->group(function (){
+Route::middleware(['auth:api' , 'admin'])->group(function (){
     Route::get('/users', 'API\AdminController@users');
     Route::post('register', 'API\UserController@register');
     Route::post('makemanager/{id}', 'API\AdminController@makemanager');
@@ -33,11 +33,10 @@ Route::middleware(['auth:api' , 'admin', 'cors'])->group(function (){
 
 use App\User;
 
-Route::post('test', function (Request $request){
-    $user = User::where('email', $request->email) -> first(); 
-    $success['token'] =  $user->createToken('MyApp')-> accessToken; 
-    return response()->json(['test' => $user , 'token' => $success], 200);
-});
+Route::get('test', function (Request $request){
+   
+    return response()->json(['test' => User::all()], 200);
+})->middleware('cors');
 
 Route::post('/getemail', 'API\SendEmailController@send');
 Route::post('/newpassword', 'API\SendEmailController@newpassword');

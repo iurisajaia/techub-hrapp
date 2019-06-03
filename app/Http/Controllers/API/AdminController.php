@@ -12,7 +12,17 @@ class AdminController extends Controller
         return response()->json(['users' => User::all()]);
     }
     
-    public function makemoderator(){
-        return response()->json(['users' => User::all()]);
+    public function makemanager($id){
+        $user = User::find($id);
+        $user->role = 'manager';
+        $user->save();
+        return response()->json(['user' => $user]);
+    }
+
+    public function makemaviewer($id){
+        $user = User::find($id);
+        $user->role = 'viewer';
+        $user->save();
+        return response()->json(['user' => $user]);
     }
 }

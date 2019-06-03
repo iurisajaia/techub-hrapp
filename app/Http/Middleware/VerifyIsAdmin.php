@@ -16,7 +16,7 @@ class VerifyIsAdmin
     public function handle($request, Closure $next)
     {
         if(!auth()->user()->isAdmin()){
-            return response()->json('Wrong Adress');
+            return response()->json("You don't have permission to access on this Route");
         }
         return $next($request);
     }

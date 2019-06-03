@@ -34,8 +34,7 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){
 use App\User;
 
 Route::get('test', function (Request $request){
-   
-    return response()->json(['test' => User::all()], 200);
+   return response()->json(['test' => User::all()], 200);
 })->middleware('cors');
 
 Route::post('/getemail', 'API\SendEmailController@send');

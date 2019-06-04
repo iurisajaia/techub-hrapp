@@ -19,12 +19,12 @@
         public function login(Request $request){ 
             
             if(!$request->email || !$request->password){
-                return response()->json('all fields are required');
+                return response()->json(['errors' => 'all fields are required']);
             }
 
             $user = User::where('email' , $request->email)->first();
             if(!$user){
-                return response()->json('email not found');
+                return response()->json(['errors' =>'email not found']);
             }else{
 
                 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
@@ -33,7 +33,7 @@
                     return response()->json(['success' => $success, 'user' => $user], $this-> successStatus); 
                 }
                 else{ 
-                    return response()->json('Incorrect Password', 401); 
+                    return response()->json(['errors' =>'Incorrect Password']); 
                 }
             }
         }

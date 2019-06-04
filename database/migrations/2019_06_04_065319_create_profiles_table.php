@@ -21,8 +21,8 @@ class CreateProfilesTable extends Migration
             $table->string('name');
             $table->string('lastname');
             $table->string('email');
-            $table->string('facebook')->nullable();
-            $table->string('linkedin')->nullable();            
+            $table->string('facebook');
+            $table->string('linkedin');           
             $table->timestamps();
         });
     }

@@ -15,8 +15,11 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){ // Only For Admin
     Route::post('register', 'API\UserController@register'); // Add New User
     Route::post('makemanager/{id}', 'API\AdminController@makemanager'); // Change User Role To Manager
     Route::post('makeviewer/{id}', 'API\AdminController@makeviewer'); // Change User Role To Viewer
-    Route::post('createprofile', 'API\AdminController@createprofile'); // Create Profile
+    Route::post('storeprofile', 'API\AdminController@storeprofile'); // Create Profile
     Route::get('viewprofiles', 'API\AdminController@viewprofiles'); // Get All Profile
+    Route::get('profile/{id}', 'API\AdminController@singleprofile'); // Single Profile View
+    Route::put('update-profile/{id}', 'API\AdminController@update_profile'); // Update Profile
+    Route::delete('destroy-profile/{id}', 'API\AdminController@destroy_profile'); // Delete Profile
 });
 
 Route::post('login', 'API\UserController@login'); // login

@@ -40,9 +40,15 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'name' => 'required|string|max:60', 
-            'lastname' => 'required|max:60',
-            'email' => 'required|email|max:255'
+            'name' => 'required|string|max:100',
+            'phone' => 'required|string|max:100|unique:profiles',
+            'position' => 'required|string',
+            'profile' => 'required|string',
+            'comment' => 'required|string|max:255',
+            'english' => 'required|string',
+            'salary' => 'required|string',
+            'source' => 'required|string',
+            'status' => 'required|string'
         ]);
 
         if ($validator->fails()) { 
@@ -51,10 +57,14 @@ class ProfileController extends Controller
 
         $profile = Profile::create([
             'name' => $request->name,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'facebook' => $request->facebook,
-            'linkedin' => $request->linkedin,
+            'phone' => $request->phone,
+            'position' => $request->position,
+            'profile' => $request->profile,
+            'comment' => $request->comment,
+            'english' => $request->english,
+            'salary' => $request->salary,
+            'source' => $request->source,
+            'status' => $request->status
         ]);
 
         return response()->json(['profile' => $profile]);
@@ -100,21 +110,30 @@ class ProfileController extends Controller
         $profile = Profile::findOrFail($id);
 
         $validator = Validator::make($request->all(), [ 
-            'name' => 'required|string|max:60', 
-            'lastname' => 'required|max:60',
-            'email' => 'required|email|max:255'
+            'name' => 'required|string|max:100',
+            'phone' => 'required|string|unique:profiles',
+            'position' => 'required|string',
+            'profile' => 'required|string',
+            'comment' => 'required|string|max:255',
+            'english' => 'required|string',
+            'salary' => 'required|string',
+            'source' => 'required|string',
+            'status' => 'required|string'
         ]);
 
         if ($validator->fails()) { 
                 return response()->json(['error'=>$validator->errors()], 401);            
         }
-        
 
         $profile->name = $request->name;
-        $profile->lastname = $request->lastname;
-        $profile->email = $request->email;
-        $profile->facebook = $request->facebook;
-        $profile->linkedin = $request->linkedin;
+        $profile->phone = $request->phone;
+        $profile->position = $request->position;
+        $profile->profile = $request->profile;
+        $profile->english = $request->english;
+        $profile->comment = $request->comment;
+        $profile->salary = $request->salary;
+        $profile->source = $request->source;
+        $profile->status = $request->status;
         $profile->save();
 
 

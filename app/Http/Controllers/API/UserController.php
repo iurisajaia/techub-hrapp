@@ -24,7 +24,7 @@
 
             $user = User::where('email' , $request->email)->first();
             if(!$user){
-                return response()->json(['errors' =>'email not found']);
+                return response()->json(['errors' =>'email not found'], 401);
             }else{
 
                 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 

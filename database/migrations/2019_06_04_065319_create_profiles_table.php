@@ -19,10 +19,17 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('lastname');
-            $table->string('email');
-            $table->string('facebook');
-            $table->string('linkedin');           
+            $table->integer('phone');
+            $table->string('position');
+            $table->string('profile');
+            $table->string('portfolio')->nullable();      
+            $table->string('comment');     
+            // $table->string('technology_id'); 
+            $table->enum('english', ['good' , 'fluent' , 'no english'])->default('good');
+            $table->string('salary');
+            $table->enum('source', ['linkedin' , 'refference' , 'job post'])->default('linkedin');
+            $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired'])->default('wrote on linkedin');
+            // $table->string('project_id');
             $table->timestamps();
         });
     }

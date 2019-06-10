@@ -20,7 +20,7 @@ class ProfileController extends Controller
         $profiles = Profile::all();
         // $projects = Project::all();
   
-        return response()->json(['profiles' => Profile::with('projects')->get()]);
+        return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->get()]);
     }
 
     /**
@@ -73,6 +73,9 @@ class ProfileController extends Controller
         if($request->projects){
             $profile->projects()->attach($request->projects);
         }
+        if($request->technologies){
+            $profile->technologies()->attach($request->technologies);
+        }
         
         return response()->json(['profile' => $profile]);
     }
@@ -118,7 +121,7 @@ class ProfileController extends Controller
 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:100',
-            'phone' => 'required|string|unique:profiles',
+            'phone' => 'required|string',
             'position' => 'required|string',
             'profile' => 'required|string',
             'comment' => 'required|string|max:255',
@@ -141,6 +144,15 @@ class ProfileController extends Controller
         $profile->salary = $request->salary;
         $profile->source = $request->source;
         $profile->status = $request->status;
+
+        if($request->projects){
+            $profile->projects()->sync($request->projects);
+        }
+
+        if($request->technologies){
+            $profile->technologies()->sync($request->technologies);
+        }
+
         $profile->save();
 
 

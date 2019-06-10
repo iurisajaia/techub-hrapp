@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Validator;
 use App\Profile;
+use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,8 +18,9 @@ class ProfileController extends Controller
     public function index()
     {
         $profiles = Profile::all();
-
-        return response()->json(['profiles' => $profiles]);
+        // $projects = Project::all();
+  
+        return response()->json(['profiles' => Profile::with('projects')->get()]);
     }
 
     /**
@@ -39,6 +41,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:100',
             'phone' => 'required|string|max:100|unique:profiles',
@@ -66,7 +69,11 @@ class ProfileController extends Controller
             'source' => $request->source,
             'status' => $request->status
         ]);
-
+        
+        if($request->projects){
+            $profile->projects()->attach($request->projects);
+        }
+        
         return response()->json(['profile' => $profile]);
     }
 
@@ -83,8 +90,8 @@ class ProfileController extends Controller
         if(!$profile){
             return response()->json('User Not Found');
         }
-
-        return response()->json(['profile' => $profile]);
+        
+        return response()->json(['profile' => $profile , 'projects' => $profile->projects()->find(1)]);
     }
 
     /**

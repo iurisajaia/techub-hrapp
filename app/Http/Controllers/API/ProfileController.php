@@ -17,10 +17,12 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profiles = Profile::all();
-        // $projects = Project::all();
+        $profiles = Profile::whereHas('projects', function($query) {
+            $query->where('black_list', 0);
+        })->get();
   
-        return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->get()]);
+        // return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->get()]);
+        return response()->json(['profiles' =>  $profiles]);
     }
 
     /**
@@ -144,6 +146,7 @@ class ProfileController extends Controller
         $profile->salary = $request->salary;
         $profile->source = $request->source;
         $profile->status = $request->status;
+        $profile->black_list = $request->black_list;
 
         if($request->projects){
             $profile->projects()->sync($request->projects);
@@ -185,5 +188,13 @@ class ProfileController extends Controller
             ->get();
 
         return response()->json(['profiles' => $profile]);
+    }
+
+    public function black(){
+        $profiles = Profile::where('black_list', 1)
+               ->get();
+
+
+        return response()->json(['profiles' => $profiles]);
     }
 }

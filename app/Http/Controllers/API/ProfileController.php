@@ -17,12 +17,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profiles = Profile::whereHas('projects', function($query) {
-            $query->where('black_list', 0);
-        })->get();
-  
-        // return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->get()]);
-        return response()->json(['profiles' =>  $profiles]);
+        
+        return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->get()]);
     }
 
     /**

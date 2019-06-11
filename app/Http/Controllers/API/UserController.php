@@ -33,7 +33,7 @@
                     return response()->json(['success' => $success, 'user' => $user], $this-> successStatus); 
                 }
                 else{ 
-                    return response()->json(['errors' =>'Incorrect Password' , 401]); 
+                    return response()->json(['errors' =>'Incorrect Password' ], 401); 
                 }
             }
         }

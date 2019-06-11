@@ -23,7 +23,7 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){ // Only For Admin
     Route::get('profile/{id}', 'API\ProfileController@show'); // Single Profile View
     Route::put('update-profile/{id}', 'API\ProfileController@update'); // Update Profile
     Route::delete('destroy-profile/{id}', 'API\ProfileController@destroy'); // Delete Profile
-    
+    Route::get('get-profile/date/{date}' , 'API\ProfileController@date'); // Get Profiles With Date
     
     // Projects
     Route::get('get-projects', 'API\ProjectsController@index'); // Get Projects

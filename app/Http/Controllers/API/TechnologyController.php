@@ -14,8 +14,8 @@ class TechnologyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return response()->json(['technologies' => Technology::all()]);
+    {   
+        return response()->json(['technologies' => Technology::with('profiles')->get()]);
     }
 
     /**

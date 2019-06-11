@@ -172,4 +172,18 @@ class ProfileController extends Controller
 
         return response()->json(['user deleted']);
     }
+
+
+    public function date($id){
+
+        $dateNow = date('Y-m-d H:i:s');
+
+        $profile = Profile::select("profiles.*")
+
+            ->whereBetween('created_at', [$id, $dateNow])
+
+            ->get();
+
+        return response()->json(['profiles' => $profile]);
+    }
 }

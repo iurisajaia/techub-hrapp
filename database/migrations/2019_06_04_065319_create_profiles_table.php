@@ -29,6 +29,8 @@ class CreateProfilesTable extends Migration
             $table->enum('source', ['linkedin' , 'refference' , 'job post'])->default('linkedin');
             $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired'])->default('wrote on linkedin');
             $table->boolean('black_list')->default(false);
+            $table->integer('author_id')->default(1);
+            $table->integer('updater_id')->default(1);
             $table->timestamps();
         });
     }

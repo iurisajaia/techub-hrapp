@@ -37,7 +37,8 @@ class ProjectsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'title' => 'required|string'
+            'title' => 'required|string',
+            'author_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) { 
@@ -45,7 +46,8 @@ class ProjectsController extends Controller
         }
 
         $project = Project::create([
-            'title' => $request->title
+            'title' => $request->title,
+            'author_id' => $request->author_id
         ]);
 
         return response()->json(['project' => $project]);
@@ -93,6 +95,8 @@ class ProjectsController extends Controller
         }      
         
         $project->title = $request->title;
+        $project->updater_id = $request->updater_id;
+
         $project->save();
 
 

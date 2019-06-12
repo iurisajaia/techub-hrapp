@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     protected $fillable = [
-        'name', 'phone', 'position','comment', 'profile','english','salary','source','status'
+        'name', 'phone', 'position','comment', 'profile','english','salary','source','status','author_id'
     ];
 
     public function projects(){

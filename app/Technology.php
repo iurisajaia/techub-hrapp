@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Technology extends Model
 {
     protected $fillable = [
-        'title'
+        'title' , 'author_id'
     ];
 
     public function profiles(){

@@ -49,7 +49,8 @@ class ProfileController extends Controller
             'english' => 'required|string',
             'salary' => 'required|string',
             'source' => 'required|string',
-            'status' => 'required|string'
+            'status' => 'required|string',
+            'author_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) { 
@@ -65,7 +66,8 @@ class ProfileController extends Controller
             'english' => $request->english,
             'salary' => $request->salary,
             'source' => $request->source,
-            'status' => $request->status
+            'status' => $request->status,
+            'author_id' => $request->author_id
         ]);
         
         if($request->projects){
@@ -143,6 +145,7 @@ class ProfileController extends Controller
         $profile->source = $request->source;
         $profile->status = $request->status;
         $profile->black_list = $request->black_list;
+        $profile->updater_id = $request->updater_id;
 
         if($request->projects){
             $profile->projects()->sync($request->projects);

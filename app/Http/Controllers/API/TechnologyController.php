@@ -37,15 +37,18 @@ class TechnologyController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'title' => 'required|string'
+            'title' => 'required|string',
+            'author_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) { 
                 return response()->json(['error'=>$validator->errors()], 401);            
         }
 
+        // dd($request->all());
         $technology = Technology::create([
-            'title' => $request->title
+            'title' => $request->title,
+            'author_id' => $request->author_id
         ]);
 
         return response()->json(['technology' => $technology]);
@@ -93,6 +96,7 @@ class TechnologyController extends Controller
         }      
         
         $technology->title = $request->title;
+        $technology->updater_id = $request->updater_id;
         $technology->save();
 
 

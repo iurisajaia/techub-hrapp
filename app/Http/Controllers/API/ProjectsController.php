@@ -61,7 +61,13 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-    
+        $project = project::find($id);
+
+        if(!$project){
+            return response()->json(['error' => 'Project Not Found'] , 401);
+        }
+        
+        return response()->json(['project' => $project , 'profiles' => $project->profiles()->get()]);
     }
 
     /**

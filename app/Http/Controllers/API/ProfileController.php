@@ -94,7 +94,8 @@ class ProfileController extends Controller
             return response()->json('User Not Found');
         }
         
-        return response()->json(['profile' => $profile , 'projects' => $profile->projects()->find(1)]);
+        return response()->json(['profile' => $profile , 'projects' => $profile->projects()->get() , 'technologies' => $profile->technologies()->get()]);
+        
     }
 
     /**

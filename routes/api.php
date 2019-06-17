@@ -29,6 +29,7 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){ // Only For Admin
     // Projects
     Route::get('get-projects', 'API\ProjectsController@index'); // Get Projects
     Route::post('store-project', 'API\ProjectsController@store'); // Store Project
+    Route::get('project/{id}', 'API\ProjectsController@show'); // Single Project View
     Route::put('update-project/{id}', 'API\ProjectsController@update'); // Update Project
     Route::delete('destroy-project/{id}', 'API\ProjectsController@destroy'); // Delete Project
     
@@ -36,6 +37,7 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){ // Only For Admin
     // Technologies
     Route::get('get-technologies', 'API\TechnologyController@index'); // Get Technology
     Route::post('store-technology', 'API\TechnologyController@store'); // Store Technology
+    Route::get('technology/{id}', 'API\TechnologyController@show'); // Single Technology View
     Route::put('update-technology/{id}', 'API\TechnologyController@update'); // Update Technology
     Route::delete('destroy-technology/{id}', 'API\TechnologyController@destroy'); // Delete Technology
 });

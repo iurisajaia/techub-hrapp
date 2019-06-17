@@ -62,7 +62,13 @@ class TechnologyController extends Controller
      */
     public function show($id)
     {
-        //
+        $technology = Technology::find($id);
+
+        if(!$technology){
+            return response()->json(['error' => 'Technology Not Found'] , 401);
+        }
+        
+        return response()->json(['technology' => $technology , 'profiles' => $technology->profiles()->get()]);
     }
 
     /**

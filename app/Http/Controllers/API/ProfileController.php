@@ -77,7 +77,8 @@ class ProfileController extends Controller
             $profile->technologies()->attach($request->technologies);
         }
         
-        return response()->json(['profile' => $profile]);
+        return response()->json(['profile' => $profile , 'projects' => $profile->projects()->get() , 'technologies' => $profile->technologies()->get()]);
+        
     }
 
     /**

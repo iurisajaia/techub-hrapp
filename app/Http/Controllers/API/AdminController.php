@@ -13,7 +13,7 @@ class AdminController extends Controller
 
     // Get All Users
     public function users(){
-        return response()->json(['users' => User::all()]);
+        return response()->json(['users' => User::all()->toArray()]);
     }
     
     // Change User Role To Manager

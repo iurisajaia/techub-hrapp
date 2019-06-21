@@ -50,7 +50,12 @@
 
             if ($validator->fails()) { 
                         return response()->json(['error'=>$validator->errors()], 401);            
-                }
+                    }
+
+            $exists = User::where('email', '=', $request->email)->first();
+            if ($exists) {
+                return response()->json(['error'=> 'Email Already Exists'], 401);            
+            }
 
             $input = $request->all(); 
             $input['password'] = bcrypt($input['password']); 

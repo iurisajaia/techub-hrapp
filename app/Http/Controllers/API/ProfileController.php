@@ -159,8 +159,7 @@ class ProfileController extends Controller
 
         $profile->save();
 
-
-        return response()->json(['profile' => $profile]);
+        return response()->json(['profile' => $profile , 'projects' => $profile->projects()->get() , 'technologies' => $profile->technologies()->get()]);
     }
 
     /**

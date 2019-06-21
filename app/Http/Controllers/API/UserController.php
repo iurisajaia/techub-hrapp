@@ -84,7 +84,7 @@
         $user->email = $request->email;
         $user->role = $request->role;
         if($request->password){
-           $user->password = $request->password;
+           $user->password = bcrypt($request->password);
         }
         $user->save();
 

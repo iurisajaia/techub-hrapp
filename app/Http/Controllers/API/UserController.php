@@ -70,9 +70,7 @@
 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:60', 
-            'email' => 'required|email|max:255', 
-            'password' => 'min:8|max:32', 
-            'c_password' => 'same:password',
+            'email' => 'required|email|max:255'
         ]);
 
         if ($validator->fails()) { 
@@ -84,6 +82,13 @@
         $user->email = $request->email;
         $user->role = $request->role;
         if($request->password){
+            $validator = Validator::make($request->all(), [ 
+                'password' => 'min:8|max:32', 
+                'c_password' => 'same:password',
+            ]);
+            if ($validator->fails()) { 
+                return response()->json(['error'=>$validator->errors()], 401);            
+            }  
            $user->password = bcrypt($request->password);
         }
         $user->save();

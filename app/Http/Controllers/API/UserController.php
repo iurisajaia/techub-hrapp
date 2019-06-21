@@ -82,8 +82,10 @@
         // dd($request->all());
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
         $user->role = $request->role;
+        if($request->password){
+           $user->password = $request->password;
+        }
         $user->save();
 
 

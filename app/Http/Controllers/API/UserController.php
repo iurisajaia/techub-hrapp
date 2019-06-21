@@ -90,5 +90,14 @@
         return response()->json(['user' => $user]);
     }
 
+
+    public function destroy($id)
+    {
+        $user = User::find($id);    
+        $user->delete();
+
+        return response()->json(['success' => 'user deleted'] , 200);
+    }
+
        
 }

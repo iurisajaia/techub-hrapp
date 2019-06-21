@@ -14,6 +14,7 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){ // Only For Admin
     // User Managment
     Route::get('/users', 'API\AdminController@users'); // Get All User
     Route::post('register', 'API\UserController@register'); // Add New User
+    Route::put('update-user/{id}', 'API\UserController@update'); // Update User
     Route::post('makemanager/{id}', 'API\AdminController@makemanager'); // Change User Role To Manager
     Route::post('makeviewer/{id}', 'API\AdminController@makeviewer'); // Change User Role To Viewer
     

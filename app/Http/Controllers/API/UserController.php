@@ -63,5 +63,32 @@
             return response()->json(['user' => $user ], $this-> successStatus); 
         }
 
+
+        public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [ 
+            'name' => 'required|string|max:60', 
+            'email' => 'required|email|max:255', 
+            'password' => 'required|min:8|max:32', 
+            'c_password' => 'required|same:password',
+        ]);
+
+        if ($validator->fails()) { 
+            return response()->json(['error'=>$validator->errors()], 401);            
+        }      
+        
+        // dd($request->all());
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->role = $request->role;
+        $user->save();
+
+
+        return response()->json(['user' => $user]);
+    }
+
        
 }

@@ -71,8 +71,8 @@
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:60', 
             'email' => 'required|email|max:255', 
-            'password' => 'required|min:8|max:32', 
-            'c_password' => 'required|same:password',
+            'password' => 'min:8|max:32', 
+            'c_password' => 'same:password',
         ]);
 
         if ($validator->fails()) { 

@@ -173,7 +173,7 @@ class ProfileController extends Controller
         $profile = Profile::find($id);    
         $profile->delete();
 
-        return response()->json(['user deleted']);
+        return response()->json(['success' => 'user deleted'] , 200);
     }
 
 

@@ -33,7 +33,7 @@
                     if($request->keepMe){
                         Passport::personalAccessTokensExpireIn(now()->addDays(365));
                     }else{
-                        Passport::personalAccessTokensExpireIn(now()->addHours(1));
+                        Passport::personalAccessTokensExpireIn(now()->addHours(0.1));
                     }
                     $success['token'] =  $user->createToken('MyApp')-> accessToken; 
 

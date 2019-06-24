@@ -4,6 +4,7 @@
 
     use App\User; 
     use Validator;
+    use Laravel\Passport\Passport;
     use Illuminate\Http\Request; 
     use App\Http\Controllers\Controller; 
     use Illuminate\Support\Facades\Auth; 
@@ -29,7 +30,13 @@
 
                 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
                     $user = Auth::user(); 
+                    if($request->keepMe){
+                        Passport::personalAccessTokensExpireIn(now()->addDays(365));
+                    }else{
+                        Passport::personalAccessTokensExpireIn(now()->addHours(1));
+                    }
                     $success['token'] =  $user->createToken('MyApp')-> accessToken; 
+
                     return response()->json(['success' => $success, 'user' => $user], $this-> successStatus); 
                 }
                 else{ 

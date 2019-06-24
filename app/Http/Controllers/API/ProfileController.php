@@ -17,8 +17,12 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        
-        return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->get()]);
+    //     $profile = Profile::where('status', '=', 'draft')
+    // ->orderByRaw("FIELD(status , 'open', 'announced', 'delayed', 'closed') ASC")
+    // ->orderByRaw("IF(status = 'announced', accouncement_date, date_start) DESC")
+    // ->get();
+
+        return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()]);
     }
 
     /**

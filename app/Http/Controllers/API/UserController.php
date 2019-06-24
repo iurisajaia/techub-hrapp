@@ -30,11 +30,13 @@
 
                 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
                     $user = Auth::user(); 
+                    
                     if($request->keepMe){
                         Passport::personalAccessTokensExpireIn(now()->addDays(365));
                     }else{
-                        Passport::personalAccessTokensExpireIn(now()->addHours(0.1));
+                        Passport::personalAccessTokensExpireIn(now()->addHours(1));
                     }
+
                     $success['token'] =  $user->createToken('MyApp')-> accessToken; 
 
                     return response()->json(['success' => $success, 'user' => $user], $this-> successStatus); 

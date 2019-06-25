@@ -22,7 +22,7 @@ class ProfileController extends Controller
     // ->orderByRaw("IF(status = 'announced', accouncement_date, date_start) DESC")
     // ->get();
 
-        return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()]);
+        return response()->json(['profiles' => Profile::with(['projects', 'technologies', 'comments'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()]);
     }
 
     /**
@@ -50,6 +50,7 @@ class ProfileController extends Controller
             'position' => 'required|string',
             'profile' => 'required|string',
             'english' => 'required|string',
+            'comment' => 'required|string',
             'salary' => 'required|string',
             'source' => 'required|string',
             'status' => 'required|string',
@@ -67,6 +68,7 @@ class ProfileController extends Controller
             'profile' => $request->profile,
             'english' => $request->english,
             'salary' => $request->salary,
+            'comment' => $request->comment,
             'source' => $request->source,
             'status' => $request->status,
             'author_id' => $request->author_id
@@ -130,6 +132,7 @@ class ProfileController extends Controller
             'profile' => 'required|string',
             'english' => 'required|string',
             'salary' => 'required|string',
+            'comment' => 'required|string',
             'source' => 'required|string',
             'status' => 'required|string'
         ]);
@@ -146,6 +149,7 @@ class ProfileController extends Controller
         $profile->salary = $request->salary;
         $profile->source = $request->source;
         $profile->status = $request->status;
+        $profile->comment = $request->comment;
         $profile->updater_id = $request->updater_id;
 
         if($request->projects){

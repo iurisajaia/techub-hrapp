@@ -22,6 +22,7 @@ class CreateProfilesTable extends Migration
             $table->string('phone');
             $table->string('position');
             $table->string('profile');
+            $table->string('comment'); 
             $table->string('portfolio')->nullable();      
             $table->enum('english', ['good' , 'fluent' , 'no english'])->default('good');
             $table->string('salary');

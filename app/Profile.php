@@ -3,14 +3,13 @@
 namespace App;
 use App\Project;
 use App\Technology;
-use App\Comment;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
     protected $fillable = [
-        'name', 'phone', 'position', 'profile','english','salary','source','status','author_id'
+        'name', 'phone', 'position', 'profile','english','salary','source','status','author_id' , 'comment'
     ];
 
     public function projects(){
@@ -21,7 +20,5 @@ class Profile extends Model
         return $this->belongsToMany(Technology::class);
     }
     
-    public function comments(){
-        return $this->belongsToMany(Comment::class);
-    }
+    
 }

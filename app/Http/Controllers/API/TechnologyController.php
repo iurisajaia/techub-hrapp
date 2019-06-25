@@ -37,7 +37,7 @@ class TechnologyController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'title' => 'required|string',
+            'title' => 'required|string|unique:technologies',
             'author_id' => 'required|integer'
         ]);
 

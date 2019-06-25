@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 */
 
 
-Route::middleware(['auth:api' , 'manager' ])->group(function (){ // Only For Admin 
+Route::middleware(['auth:api' , 'admin' , 'manager' ])->group(function (){ // Only For Admin 
     // User Managment
     Route::get('/users', 'API\AdminController@users'); // Get All User
     Route::post('register', 'API\UserController@register'); // Add New User

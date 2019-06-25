@@ -21,8 +21,15 @@ class ProfileController extends Controller
     // ->orderByRaw("FIELD(status , 'open', 'announced', 'delayed', 'closed') ASC")
     // ->orderByRaw("IF(status = 'announced', accouncement_date, date_start) DESC")
     // ->get();
+    if(auth()->user()->isOnlyManager()){
+        $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden('salary');
+        return response()->json(['profiles' => $profile]);
+    }
+    else {
 
         return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()]);
+    }
+
     }
 
     /**

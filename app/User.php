@@ -45,6 +45,9 @@ class User extends Authenticatable
     public function isManager(){
         return $this->role === 'admin' || $this->role === 'manager';
     }
+    public function isOnlyManager(){
+        return  $this->role === 'manager';
+    }
 
     // public $timestamps = false;
 

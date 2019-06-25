@@ -15,7 +15,7 @@ class VerifyIsOnlyManager
      */
     public function handle($request, Closure $next)
     {
-        if(!auth()->user()->isOnlyManager()){
+        if(!auth()->user()->isManager()){
             return response()->json("You don't have permission to access on this Information");
         }
         return $next($request);

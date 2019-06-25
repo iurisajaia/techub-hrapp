@@ -42,11 +42,14 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function isManager(){
-        return $this->role === 'admin' || $this->role === 'manager';
+    public function isLogged(){
+        return $this->role === 'admin' || $this->role === 'manager' || $this->role === 'viewer';
     }
-    public function isOnlyManager(){
+    public function isManager(){
         return  $this->role === 'manager';
+    }
+    public function isManagerOrisAdmin(){
+        return  $this->role === 'manager' || $this->role === 'admin';
     }
 
     // public $timestamps = false;

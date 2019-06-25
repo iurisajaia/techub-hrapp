@@ -42,6 +42,10 @@ Route::middleware(['auth:api' , 'admin'])->group(function (){ // Only For Admin
     Route::get('technology/{id}', 'API\TechnologyController@show'); // Single Technology View
     Route::put('update-technology/{id}', 'API\TechnologyController@update'); // Update Technology
     Route::delete('destroy-technology/{id}', 'API\TechnologyController@destroy'); // Delete Technology
+    
+    // Comments
+    Route::post('store-comment', 'API\CommentsController@store'); // Store Comments
+    
 });
 
 

@@ -1,17 +1,16 @@
 <?php
 
 namespace App;
-use  App\Profile;
-
+use App\Profile;
 use Illuminate\Database\Eloquent\Model;
 
-class Comments extends Model
+class Comment extends Model
 {
     protected $fillable = [
-        'comment','profile_id'
+        'comment', 'author_id'
     ];
 
-    public function comments(){
+    public function profile(){
         return $this->belongsTo(Profile::class);
     }
 }

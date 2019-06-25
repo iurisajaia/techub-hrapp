@@ -49,7 +49,6 @@ class ProfileController extends Controller
             'phone' => 'required|string|max:100|unique:profiles',
             'position' => 'required|string',
             'profile' => 'required|string',
-            'comment' => 'required|string|max:255',
             'english' => 'required|string',
             'salary' => 'required|string',
             'source' => 'required|string',
@@ -66,7 +65,6 @@ class ProfileController extends Controller
             'phone' => $request->phone,
             'position' => $request->position,
             'profile' => $request->profile,
-            'comment' => $request->comment,
             'english' => $request->english,
             'salary' => $request->salary,
             'source' => $request->source,
@@ -130,7 +128,6 @@ class ProfileController extends Controller
             'phone' => 'required|string',
             'position' => 'required|string',
             'profile' => 'required|string',
-            'comment' => 'required|string|max:255',
             'english' => 'required|string',
             'salary' => 'required|string',
             'source' => 'required|string',
@@ -146,11 +143,9 @@ class ProfileController extends Controller
         $profile->position = $request->position;
         $profile->profile = $request->profile;
         $profile->english = $request->english;
-        $profile->comment = $request->comment;
         $profile->salary = $request->salary;
         $profile->source = $request->source;
         $profile->status = $request->status;
-        $profile->black_list = $request->black_list;
         $profile->updater_id = $request->updater_id;
 
         if($request->projects){
@@ -160,6 +155,8 @@ class ProfileController extends Controller
         if($request->technologies){
             $profile->technologies()->sync($request->technologies);
         }
+                
+        
 
         $profile->save();
 

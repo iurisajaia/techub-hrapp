@@ -23,12 +23,10 @@ class CreateProfilesTable extends Migration
             $table->string('position');
             $table->string('profile');
             $table->string('portfolio')->nullable();      
-            $table->string('comment');     
             $table->enum('english', ['good' , 'fluent' , 'no english'])->default('good');
             $table->string('salary');
             $table->enum('source', ['linkedin' , 'refference' , 'job post'])->default('linkedin');
-            $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired'])->default('wrote on linkedin');
-            $table->boolean('black_list')->default(false);
+            $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired' , 'black_list'])->default('wrote on linkedin');
             $table->integer('author_id')->default(1);
             $table->integer('updater_id')->default(1);
             $table->timestamps();

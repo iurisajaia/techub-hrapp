@@ -42,7 +42,7 @@ class TechnologyController extends Controller
         ]);
 
         if ($validator->fails()) { 
-                return response()->json(['error'=>$validator->errors()], 401);            
+                return response()->json(['error'=>$validator->errors()], 400);            
         }
 
         // dd($request->all());
@@ -65,7 +65,7 @@ class TechnologyController extends Controller
         $technology = Technology::find($id);
 
         if(!$technology){
-            return response()->json(['error' => 'Technology Not Found'] , 401);
+            return response()->json(['error' => 'Technology Not Found'] , 400);
         }
         
         return response()->json(['technology' => $technology , 'profiles' => $technology->profiles()->get()]);
@@ -98,7 +98,7 @@ class TechnologyController extends Controller
         ]);
 
         if ($validator->fails()) { 
-                return response()->json(['error'=>$validator->errors()], 401);            
+                return response()->json(['error'=>$validator->errors()], 400);            
         }      
         
         $technology->title = $request->title;

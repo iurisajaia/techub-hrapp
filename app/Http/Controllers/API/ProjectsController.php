@@ -42,7 +42,7 @@ class ProjectsController extends Controller
         ]);
 
         if ($validator->fails()) { 
-                return response()->json(['error'=>$validator->errors()], 401);            
+                return response()->json(['error'=>$validator->errors()], 400);            
         }
 
         $project = Project::create([
@@ -64,7 +64,7 @@ class ProjectsController extends Controller
         $project = project::find($id);
 
         if(!$project){
-            return response()->json(['error' => 'Project Not Found'] , 401);
+            return response()->json(['error' => 'Project Not Found'] , 400);
         }
         
         return response()->json(['project' => $project , 'profiles' => $project->profiles()->get()]);
@@ -97,7 +97,7 @@ class ProjectsController extends Controller
         ]);
 
         if ($validator->fails()) { 
-                return response()->json(['error'=>$validator->errors()], 401);            
+                return response()->json(['error'=>$validator->errors()], 400);            
         }      
         
         $project->title = $request->title;

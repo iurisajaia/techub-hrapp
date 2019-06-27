@@ -18,7 +18,6 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     Route::post('makemanager/{id}', 'API\AdminController@makemanager'); // Change User Role To Manager
     Route::post('makeviewer/{id}', 'API\AdminController@makeviewer'); // Change User Role To Viewer
 
-
     // Profile Managment
     Route::post('store-profile', 'API\ProfileController@store'); // Create Profile
     Route::put('update-profile/{id}', 'API\ProfileController@update'); // Update Profile
@@ -44,7 +43,6 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
     // User Managment
     Route::get('/users', 'API\AdminController@users'); // Get All User
     
-    
     // Profile Managment
     Route::get('all-profiles', 'API\ProfileController@index'); // Get All Profile
     Route::get('profile/{id}', 'API\ProfileController@show'); // Single Profile View
@@ -54,7 +52,6 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
     // Projects
     Route::get('get-projects', 'API\ProjectsController@index'); // Get Projects
     Route::get('project/{id}', 'API\ProjectsController@show'); // Single Project View
-    
     
     // Technologies
     Route::get('get-technologies', 'API\TechnologyController@index'); // Get Technology

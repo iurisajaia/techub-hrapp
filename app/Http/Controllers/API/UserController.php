@@ -25,7 +25,7 @@
 
             $user = User::where('email' , $request->email)->first();
             if(!$user){
-                return response()->json(['errors' =>'email not found'], 401);
+                return response()->json(['errors' =>'email not found'], 400);
             }else{
 
                 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
@@ -42,7 +42,7 @@
                     return response()->json(['success' => $success, 'user' => $user], $this-> successStatus); 
                 }
                 else{ 
-                    return response()->json(['errors' =>'Incorrect Password' ], 401); 
+                    return response()->json(['errors' =>'Incorrect Password' ], 400); 
                 }
             }
         }
@@ -58,12 +58,12 @@
             ]);
 
             if ($validator->fails()) { 
-                        return response()->json(['error'=>$validator->errors()], 401);            
+                        return response()->json(['error'=>$validator->errors()], 400);            
                     }
 
             $exists = User::where('email', '=', $request->email)->first();
             if ($exists) {
-                return response()->json(['error'=> 'Email Already Exists'], 401);            
+                return response()->json(['error'=> 'Email Already Exists'], 400);            
             }
 
             $input = $request->all(); 
@@ -83,7 +83,7 @@
         ]);
 
         if ($validator->fails()) { 
-            return response()->json(['error'=>$validator->errors()], 401);            
+            return response()->json(['error'=>$validator->errors()], 400);            
         }      
         
         // dd($request->all());

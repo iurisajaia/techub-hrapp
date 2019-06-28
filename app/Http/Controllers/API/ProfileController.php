@@ -58,7 +58,7 @@ class ProfileController extends Controller
             'profile' => 'required|string',
             'english' => 'required|string',
             'comment' => 'required|string',
-            'salary' => 'required|string',
+            'salary' => 'string',
             'source' => 'required|string',
             'status' => 'required|string',
             'author_id' => 'required|integer',
@@ -138,7 +138,7 @@ class ProfileController extends Controller
             'position' => 'required|string',
             'profile' => 'required|string',
             'english' => 'required|string',
-            'salary' => 'required|string',
+            'salary' => 'string',
             'comment' => 'required|string',
             'source' => 'required|string',
             'status' => 'required|string'

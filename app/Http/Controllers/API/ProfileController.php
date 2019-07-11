@@ -61,7 +61,7 @@ class ProfileController extends Controller
             'salary' => 'string',
             'source' => 'required|string',
             'status' => 'required|string',
-            'author_id' => 'required|integer',
+            'author_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) { 
@@ -78,7 +78,7 @@ class ProfileController extends Controller
             'comment' => $request->comment,
             'source' => $request->source,
             'status' => $request->status,
-            'author_id' => $request->author_id
+            'author_id' => $request->author_id,
         ]);
         
         if($request->projects){

@@ -17,17 +17,17 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     Route::delete('destroy-user/{id}', 'API\UserController@destroy'); // Delete User
     Route::post('makemanager/{id}', 'API\AdminController@makemanager'); // Change User Role To Manager
     Route::post('makeviewer/{id}', 'API\AdminController@makeviewer'); // Change User Role To Viewer
-
+    
     // Profile Managment
     Route::post('store-profile', 'API\ProfileController@store'); // Create Profile
     Route::put('update-profile/{id}', 'API\ProfileController@update'); // Update Profile
     Route::delete('destroy-profile/{id}', 'API\ProfileController@destroy'); // Delete Profile
-
+    
     // Projects
     Route::post('store-project', 'API\ProjectsController@store'); // Store Project
     Route::put('update-project/{id}', 'API\ProjectsController@update'); // Update Project
     Route::delete('destroy-project/{id}', 'API\ProjectsController@destroy'); // Delete Project
-
+    
     // Technologies
     Route::post('store-technology', 'API\TechnologyController@store'); // Store Technology
     Route::put('update-technology/{id}', 'API\TechnologyController@update'); // Update Technology
@@ -35,13 +35,16 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     
     // Comments
     Route::post('store-comment', 'API\CommentsController@store'); // Store Comments
-
+    
+    Route::post('store-file', 'API\UploadsController@store'); // Add New File
 });
 
 
 Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin 
     // User Managment
     Route::get('/users', 'API\AdminController@users'); // Get All User
+    
+    Route::get('/get-files', 'API\UploadsController@index'); // Get All Files
     
     // Profile Managment
     Route::get('all-profiles', 'API\ProfileController@index'); // Get All Profile
@@ -59,6 +62,8 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
     
     // Comments
     Route::get('get-comments', 'API\CommentsController@index'); // Get Technology
+
+
     
 });
 

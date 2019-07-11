@@ -15,13 +15,17 @@ class UploadsController extends Controller
 
     public function store(Request $request)
     {
-        
-        $file = $request->file->store('public/uploads');
+        // dd($request->file);
+        $file = $request->file->store('/public/uploads');
         $name = $request->file->getClientOriginalName();
-        
+
+
+        $remove = 'public/';
+        $filename = str_replace($remove, "", $file);
+
         $uploads = Uploads::create([
             'title' => $name,
-            'path' => $file,
+            'path' => 'storage/' .$filename,
             'user_id' => $request->user_id,
             'author_id' => $request->author_id
         ]);

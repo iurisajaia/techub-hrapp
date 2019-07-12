@@ -37,6 +37,7 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     Route::post('store-comment', 'API\CommentsController@store'); // Store Comments
     
     Route::post('store-file', 'API\UploadsController@store'); // Add New File
+    Route::delete('destroy-file/{id}', 'API\UploadsController@destroy'); // Delete Technology
 });
 
 

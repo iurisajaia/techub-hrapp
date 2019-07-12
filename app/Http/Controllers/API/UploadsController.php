@@ -44,4 +44,12 @@ class UploadsController extends Controller
         return response()->json(['file' => $file]);
         
     }
+
+    public function destroy($id)
+    {
+        $upload = Uploads::find($id);    
+        $upload->delete();
+
+        return response()->json(['success' => 'file Deleted']);
+    }
 }

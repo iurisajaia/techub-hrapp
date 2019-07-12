@@ -15,7 +15,7 @@ class UploadsController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->file);
+        // dd($request->all());
         $file = $request->file->store('/public/uploads');
         $name = $request->file->getClientOriginalName();
 
@@ -31,5 +31,17 @@ class UploadsController extends Controller
         ]);
 
         return response()->json(['success' => $uploads], 200);
+    }
+
+    public function show($id)
+    {
+        $file = Uploads::where('user_id' , $id)->get();
+
+        if(!$file){
+            return response()->json('File Not Found');
+        }
+        
+        return response()->json(['file' => $file]);
+        
     }
 }

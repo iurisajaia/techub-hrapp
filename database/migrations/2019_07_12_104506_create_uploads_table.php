@@ -17,6 +17,7 @@ class CreateUploadsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('path');
+            $table->integer('user_id')->default(1);
             $table->integer('author_id')->default(1);
             $table->integer('updater_id')->default(1);
             $table->timestamps();

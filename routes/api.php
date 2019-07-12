@@ -45,6 +45,8 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
     Route::get('/users', 'API\AdminController@users'); // Get All User
     
     Route::get('/get-files', 'API\UploadsController@index'); // Get All Files
+    Route::get('file/{id}', 'API\UploadsController@show'); // Single File
+
     
     // Profile Managment
     Route::get('all-profiles', 'API\ProfileController@index'); // Get All Profile

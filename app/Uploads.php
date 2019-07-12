@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Uploads extends Model
 {
     protected $fillable = [
-       'title' , 'path','author_id'
+        'title' , 'path','author_id' , 'user_id'
     ];
+    
 }

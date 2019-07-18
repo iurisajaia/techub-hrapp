@@ -49,6 +49,7 @@ class UploadsController extends Controller
     {
         $upload = Uploads::find($id);    
         $upload->delete();
+        Storage::delete($id);
 
         return response()->json(['success' => 'file Deleted']);
     }

@@ -29,7 +29,7 @@ class UploadsController extends Controller
             'user_id' => $request->user_id,
             'author_id' => $request->author_id
         ]);
-
+        
         return response()->json(['success' => $uploads], 200);
     }
 
@@ -49,8 +49,25 @@ class UploadsController extends Controller
     {   
         $upload = Uploads::find($id);    
         // Storage::delete($upload->title);
+        // $documents = Document::where('title', $upload->title)->get();
+        //     foreach ($documents as $document) {
+        //         Storage::disk('uploads')->delete($document->title);
+        //         $document->delete();
+        //     }
         $upload->delete();
 
         return response()->json(['success' => 'file Deleted']);
+    }
+
+    public function storeExcel(Request $request){
+        dd($request->file);
+        if($request->hasFile('file')){
+            $extension = File::extension($request->file->getClientOriginalName());
+           
+             $data = Excel::load($path, function($reader) {
+             })->get();
+            
+            }
+        return response()->json(['success' => 'I am here']); 
     }
 }

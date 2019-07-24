@@ -19,16 +19,16 @@ class CreateProfilesTable extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('phone');
-            $table->string('position');
-            $table->string('profile');
-            $table->string('comment'); 
+            $table->string('phone')->nullable();
+            $table->string('position')->nullable();
+            $table->string('profile')->nullable();
+            $table->longText('comment')->nullable(); 
             $table->string('portfolio')->nullable();      
-            $table->enum('english', ['good' , 'fluent' , 'no english'])->default('good');
-            $table->string('salary');
-            $table->enum('source', ['linkedin' , 'refference' , 'job post'])->default('linkedin');
-            $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired' , 'black_list'])->default('wrote on linkedin');
-            $table->integer('author_id')->default(1);
+            $table->enum('english', ['good' , 'fluent' , 'no english'])->nullable()->nullable()->default('good');
+            $table->string('salary')->nullable();
+            $table->enum('source', ['linkedin' , 'refference' , 'job post'])->nullable()->default('linkedin');
+            $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired' , 'black_list'])->nullable()->default('wrote on linkedin');
+            $table->integer('author_id')->nullable()->default(1);
             $table->integer('updater_id')->default(1);
             $table->timestamps();
         });

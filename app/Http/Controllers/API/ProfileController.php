@@ -50,18 +50,16 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+      
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:100',
-            'phone' => 'required|string|max:100|unique:profiles',
-            'position' => 'required|string',
-            'profile' => 'required|string',
-            'english' => 'required|string',
-            'comment' => 'required|string',
+            'position' => 'string',
+            'profile' => 'string',
+            'comment' => 'string',
             'salary' => 'string',
-            'source' => 'required|string',
-            'status' => 'required|string',
-            'author_id' => 'required|integer'
+            'source' => 'string',
+            'status' => 'string',
+            'author_id' => 'integer'
         ]);
 
         if ($validator->fails()) { 
@@ -78,7 +76,7 @@ class ProfileController extends Controller
             'comment' => $request->comment,
             'source' => $request->source,
             'status' => $request->status,
-            'author_id' => $request->author_id,
+            'author_id' =>  $request->author_id,
         ]);
         
         if($request->projects){

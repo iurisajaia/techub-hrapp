@@ -132,14 +132,13 @@ class ProfileController extends Controller
 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:100',
-            'phone' => 'required|string',
-            'position' => 'required|string',
-            'profile' => 'required|string',
-            'english' => 'required|string',
+            'position' => 'string',
+            'profile' => 'string',
+            'comment' => 'string',
             'salary' => 'string',
-            'comment' => 'required|string',
-            'source' => 'required|string',
-            'status' => 'required|string'
+            'source' => 'string',
+            'status' => 'string',
+            'author_id' => 'integer'
         ]);
 
         if ($validator->fails()) { 

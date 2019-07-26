@@ -85,6 +85,6 @@ Route::post('/newpassword', 'API\SendEmailController@newpassword'); // Get New P
 
 use App\User;
 Route::get('test', function (Request $request){
-   return response()->json(['test' => User::all()], 200);
-}); // Test Route 
+   return response()->json(['test' => '123'], 200);
+}); // Test Route  User::all()
 

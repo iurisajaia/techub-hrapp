@@ -101,6 +101,10 @@ class ProjectsController extends Controller
         }      
         
         $project->title = $request->title;
+        $project->start_date = $request->start_date;
+        $project->end_date = $request->end_date;
+        $project->status = $request->status;
+        $project->referral = $request->referral;
         $project->updater_id = $request->updater_id;
 
         $project->save();

@@ -46,23 +46,16 @@ class ProjectsController extends Controller
         }
 
         
-        $project->title = $request->title;
-        $project->start_date = $request->start_date;
-        $project->end_date = $request->end_date;
-        $project->status = $request->status;
-        $project->referral = $request->referral;
-        $project->updater_id = $request->updater_id;
+        
 
-        $project->save();
-
-        // $project = Project::create([
-        //     'title' => $request->title,
-        //     'author_id' => $request->author_id,
-        //     'start_date' => $request->start_date,
-        //     'end_date' => $request->end_date,
-        //     'status' => $request->status,
-        //     'referral' => $request->referral
-        // ]);
+        $project = Project::create([
+            'title' => $request->title,
+            'author_id' => $request->author_id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
+            'referral' => $request->referral
+        ]);
 
         return response()->json(['project' => $project]);
     }

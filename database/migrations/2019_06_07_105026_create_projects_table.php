@@ -16,6 +16,10 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
+            $table->string('referral')->nullable();
+            $table->enum('status', ['planned' , 'in progress' , 'postponed' , 'cancelled' , 'arcguved'])->nullable()->nullable()->default('in progress');
             $table->integer('author_id')->default(1);
             $table->integer('updater_id')->default(1);
             $table->timestamps();

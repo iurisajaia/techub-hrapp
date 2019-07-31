@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->text('start_date')->nullable();
             $table->text('end_date')->nullable();
+            $table->longText('comment')->nullable();
             $table->string('referral')->nullable();
             $table->enum('status', ['planned' , 'in progress' , 'postponed' , 'cancelled' , 'arcguved'])->nullable()->nullable()->default('in progress');
             $table->integer('author_id')->default(1);

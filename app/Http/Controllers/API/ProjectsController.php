@@ -54,7 +54,8 @@ class ProjectsController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'status' => $request->status,
-            'referral' => $request->referral
+            'referral' => $request->referral,
+            'comment' => $request->comment
         ]);
 
         return response()->json(['project' => $project]);
@@ -113,6 +114,7 @@ class ProjectsController extends Controller
         $project->status = $request->status;
         $project->referral = $request->referral;
         $project->updater_id = $request->updater_id;
+        $project->comment = $request->comment;
 
         $project->save();
 

@@ -16,7 +16,7 @@ class ProjectsController extends Controller
     public function index()
     {
         // $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden('salary');
-        $project =  Project::with('profiles')::orderBy('id', 'DESC')->get();
+        $project =  Project::with('profiles')->orderBy('id', 'DESC')->get();
         return response()->json($project); 
     }
 

@@ -121,6 +121,7 @@ class ProjectsController extends Controller
 
         return response()->json(['project' => $project]);
     }
+    
 
     /**
      * Remove the specified resource from storage.

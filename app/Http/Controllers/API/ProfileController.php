@@ -73,6 +73,7 @@ class ProfileController extends Controller
             'profile' => $request->profile,
             'english' => $request->english,
             'salary' => $request->salary,
+            'portfolio' => $request->portfolio,
             'comment' => $request->comment,
             'source' => $request->source,
             'status' => $request->status,

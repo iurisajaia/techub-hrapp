@@ -27,7 +27,7 @@ class CreateProfilesTable extends Migration
             $table->enum('english', ['good' , 'fluent' , 'no english'])->nullable()->nullable()->default('good');
             $table->string('salary')->nullable();
             $table->enum('source', ['linkedin' , 'refference' , 'job post'])->nullable()->default('linkedin');
-            $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired' , 'black_list'])->nullable()->default('wrote on linkedin');
+            $table->enum('status', ['wrote on linkedin' , 'refused' , 'interested', 'rejected', 'shortlisted' , 'hired' , 'black_list', 'refused'])->nullable()->default('wrote on linkedin');
             $table->integer('author_id')->nullable()->default(1);
             $table->integer('updater_id')->default(1);
             $table->timestamps();

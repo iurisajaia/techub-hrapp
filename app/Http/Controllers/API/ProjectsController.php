@@ -16,8 +16,8 @@ class ProjectsController extends Controller
     public function index()
     {
         // $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden('salary');
-        $project =  Project::with('profiles')->orderBy('id', 'DESC')->get();
-        return response()->json($project); 
+        $project =  Project::with('profiles')->orderBy('order', 'ASC')->get();
+        return response()->json(['projects' => $project]); 
     }
 
     /**
@@ -57,7 +57,8 @@ class ProjectsController extends Controller
             'end_date' => $request->end_date,
             'status' => $request->status,
             'referral' => $request->referral,
-            'comment' => $request->comment
+            'comment' => $request->comment,
+            'order' => $request->order
         ]);
 
         return response()->json(['project' => $project]);
@@ -117,6 +118,7 @@ class ProjectsController extends Controller
         $project->referral = $request->referral;
         $project->updater_id = $request->updater_id;
         $project->comment = $request->comment;
+        $project->order = $request->order;
 
         $project->save();
 
@@ -138,4 +140,20 @@ class ProjectsController extends Controller
 
         return response()->json(['success' => 'Project Deleted']);
     }
+
+    public function order(Request $request){
+        $orders = $request->order;
+        // $projects = Project::all();
+
+        foreach ($orders as $key => $id) {
+           $project = project::find($id);
+           $project->order = $key;
+           $project->save();
+        }
+   
+        $updatedProject =  Project::with('profiles')->orderBy('order', 'ASC')->get();
+        return response()->json(['success' => $updatedProject]);
+    }
 }
+
+

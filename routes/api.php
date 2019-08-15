@@ -25,6 +25,7 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     
     // Projects
     Route::post('store-project', 'API\ProjectsController@store'); // Store Project
+    Route::post('projects-order', 'API\ProjectsController@order'); // Store Project
     Route::put('update-project/{id}', 'API\ProjectsController@update'); // Update Project
     Route::delete('destroy-project/{id}', 'API\ProjectsController@destroy'); // Delete Project
     
@@ -39,6 +40,9 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     Route::post('store-file', 'API\UploadsController@store'); // Add New File
     Route::post('store-excel', 'API\UploadsController@storeExcel'); // Add Data
     Route::delete('destroy-file/{id}', 'API\UploadsController@destroy'); // Delete Technology
+    
+    // Sallary index
+    Route::post('store-index', 'API\SallaryController@store'); // Add New Index
 });
 
 
@@ -68,6 +72,10 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
     Route::get('get-comments', 'API\CommentsController@index'); // Get Technology
 
 
+
+    Route::get('get-sallary', 'API\SallaryController@index'); // Get Sallary
+
+
     
 });
 
@@ -83,8 +91,4 @@ Route::post('/newpassword', 'API\SendEmailController@newpassword'); // Get New P
 
 
 
-use App\User;
-Route::get('test', function (Request $request){
-   return response()->json(['test' => '123'], 200);
-}); // Test Route  User::all()
 

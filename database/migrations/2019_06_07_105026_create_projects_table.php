@@ -20,9 +20,10 @@ class CreateProjectsTable extends Migration
             $table->text('end_date')->nullable();
             $table->longText('comment')->nullable();
             $table->string('referral')->nullable();
-            $table->enum('status', ['planned' , 'in progress' , 'postponed' , 'cancelled' , 'arcguved' , 'completed'])->nullable()->nullable()->default('in progress');
+            $table->enum('status', ['planned' , 'in progress' , 'postponed' , 'cancelled' , 'archived' , 'completed'])->nullable()->nullable()->default('in progress');
             $table->integer('author_id')->default(1);
             $table->integer('updater_id')->default(1);
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }

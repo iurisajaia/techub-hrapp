@@ -5,11 +5,21 @@ namespace App\Http\Controllers\API;
 use Validator;
 use App\Profile;
 use App\Project;
+use App\SallaryModel;
+use SoapClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
+
+    protected $client;
+ 
+    public function __construct()
+    {
+        $this->client = new SoapClient('http://nbg.gov.ge/currency.wsdl');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +60,10 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-      
+        
+        $usd = $this->client->GetCurrency('USD');
+        $index = SallaryModel::all();
+        
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:100',
             'position' => 'string',
@@ -62,10 +75,16 @@ class ProfileController extends Controller
             'author_id' => 'integer'
         ]);
 
+
         if ($validator->fails()) { 
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
-
+        $intSallary = (int)$request->salary;
+        if($intSallary > 0) {
+        $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
+        }else{
+            $sallary = 0;
+        }
         $profile = Profile::create([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -73,6 +92,7 @@ class ProfileController extends Controller
             'profile' => $request->profile,
             'english' => $request->english,
             'salary' => $request->salary,
+            'net' => $sallary,
             'portfolio' => $request->portfolio,
             'comment' => $request->comment,
             'source' => $request->source,
@@ -129,6 +149,13 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $usd = $this->client->GetCurrency('USD');
+        $index = SallaryModel::all();
+       
+        
+
+
         $profile = Profile::findOrFail($id);
 
         $validator = Validator::make($request->all(), [ 
@@ -146,12 +173,22 @@ class ProfileController extends Controller
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
 
+        $intSallary = (int)$request->salary;
+        if($intSallary > 0) {
+            $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
+        }else{
+            $sallary = 0;
+        }
+
+
         $profile->name = $request->name;
         $profile->phone = $request->phone;
         $profile->position = $request->position;
+        $profile->portfolio = $request->portfolio;
         $profile->profile = $request->profile;
         $profile->english = $request->english;
         $profile->salary = $request->salary;
+        $profile->net = $sallary;
         $profile->source = $request->source;
         $profile->status = $request->status;
         $profile->comment = $request->comment;

@@ -85,9 +85,8 @@ class SallaryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $index = SallaryModel::find();
-
-        $index->value = $request->value;
+        $index = SallaryModel::find($id);
+        $index->index = $request->index;
 
         $index->save();
 

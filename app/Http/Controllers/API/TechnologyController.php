@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Technology;
+use App\Profile;
 use Validator;
 class TechnologyController extends Controller
 {
@@ -63,12 +64,23 @@ class TechnologyController extends Controller
     public function show($id)
     {
         $technology = Technology::find($id);
+        $profiles = Profile::with(['projects', 'technologies'])->get();
+        $finalProfiles = [];
+        foreach($profiles as $profile){
+            foreach($profile->technologies as $p){
+                if($p->id == $id){
+                    $prof = $p->pivot->profile_id;
+                    $final = Profile::with(['projects', 'technologies'])->where('id', $prof)->get();
+                    array_push($finalProfiles, $final);
+                }
+            }
+        }
 
         if(!$technology){
             return response()->json(['error' => 'Technology Not Found'] , 400);
         }
         
-        return response()->json(['technology' => $technology , 'profiles' => $technology->profiles()->get()]);
+        return response()->json(['technology' => $technology , 'profiles' => $finalProfiles]);
     }
 
     /**

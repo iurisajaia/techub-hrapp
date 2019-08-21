@@ -27,17 +27,32 @@ class ProfileController extends Controller
      */
     public function index()
     {
-    //     $profile = Profile::where('status', '=', 'draft')
-    // ->orderByRaw("FIELD(status , 'open', 'announced', 'delayed', 'closed') ASC")
-    // ->orderByRaw("IF(status = 'announced', accouncement_date, date_start) DESC")
-    // ->get();
+        $allProfile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get();
+
+        $usd = $this->client->GetCurrency('USD');
+        $index = SallaryModel::all();
+
+        foreach($allProfile as $profile){
+        $intSallary = (int)$profile->salary;
+            if($intSallary > 0) {
+                $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
+            }else{
+                $sallary = 0;
+            }
+            if($sallary){
+                $profile['net'] = $sallary;
+            }
+        }
+    
+        
+    
     if(auth()->user()->isManager()){
-        $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden('salary');
+        $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden(['salary' , 'net']);
         return response()->json(['profiles' => $profile]);
     }
     else {
 
-        return response()->json(['profiles' => Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()]);
+        return response()->json(['profiles' => $allProfile , 'sallary' => $sallary]);
     }
 
     }
@@ -61,8 +76,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
         
-        $usd = $this->client->GetCurrency('USD');
-        $index = SallaryModel::all();
+        
         
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:100',
@@ -79,12 +93,7 @@ class ProfileController extends Controller
         if ($validator->fails()) { 
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
-        $intSallary = (int)$request->salary;
-        if($intSallary > 0) {
-        $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
-        }else{
-            $sallary = 0;
-        }
+        
         $profile = Profile::create([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -92,7 +101,6 @@ class ProfileController extends Controller
             'profile' => $request->profile,
             'english' => $request->english,
             'salary' => $request->salary,
-            'net' => $sallary,
             'portfolio' => $request->portfolio,
             'comment' => $request->comment,
             'source' => $request->source,
@@ -120,6 +128,19 @@ class ProfileController extends Controller
     public function show($id)
     {
         $profile = Profile::find($id);
+
+        $usd = $this->client->GetCurrency('USD');
+        $index = SallaryModel::all();
+        
+        $intSallary = (int)$profile->salary;
+        if($intSallary > 0) {
+            $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
+        }else{
+            $sallary = 0;
+        }
+        if($sallary){
+            $profile['net'] = $sallary;
+        }
 
         if(!$profile){
             return response()->json('User Not Found');
@@ -150,12 +171,6 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
 
-        $usd = $this->client->GetCurrency('USD');
-        $index = SallaryModel::all();
-       
-        
-
-
         $profile = Profile::findOrFail($id);
 
         $validator = Validator::make($request->all(), [ 
@@ -173,13 +188,6 @@ class ProfileController extends Controller
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
 
-        $intSallary = (int)$request->salary;
-        if($intSallary > 0) {
-            $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
-        }else{
-            $sallary = 0;
-        }
-
 
         $profile->name = $request->name;
         $profile->phone = $request->phone;
@@ -188,7 +196,6 @@ class ProfileController extends Controller
         $profile->profile = $request->profile;
         $profile->english = $request->english;
         $profile->salary = $request->salary;
-        $profile->net = $sallary;
         $profile->source = $request->source;
         $profile->status = $request->status;
         $profile->comment = $request->comment;

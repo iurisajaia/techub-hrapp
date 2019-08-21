@@ -43,6 +43,7 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     
     // Sallary index
     Route::post('store-index', 'API\SallaryController@store'); // Add New Index
+    Route::put('update-index/{id}', 'API\SallaryController@update'); // Add New Index
 });
 
 

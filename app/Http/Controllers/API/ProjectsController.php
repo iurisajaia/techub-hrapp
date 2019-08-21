@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\Profile;
 use Validator;
 class ProjectsController extends Controller
 {
@@ -73,12 +74,24 @@ class ProjectsController extends Controller
     public function show($id)
     {
         $project = project::find($id);
+        $profiles = Profile::with(['projects', 'technologies'])->get();
+        $finalProfiles = [];
+        foreach($profiles as $profile){
+            foreach($profile->projects as $p){
+                if($p->id == $id){
+                    $prof = $p->pivot->profile_id;
+                    $final = Profile::with(['projects', 'technologies'])->where('id', $prof)->get();
+                    array_push($finalProfiles, $final);
+                }
+            }
+        }
+
 
         if(!$project){
             return response()->json(['error' => 'Project Not Found'] , 400);
         }
         
-        return response()->json(['project' => $project , 'profiles' => $project->profiles()->get()]);
+        return response()->json(['project' => $project , 'profiles' => $finalProfiles]);
     }
 
     /**

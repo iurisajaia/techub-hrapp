@@ -6,9 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
 use App\Profile;
+use App\SallaryModel;
+use SoapClient;
 use Validator;
 class ProjectsController extends Controller
 {
+    protected $client;
+ 
+    public function __construct()
+    {
+        $this->client = new SoapClient('http://nbg.gov.ge/currency.wsdl');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +27,7 @@ class ProjectsController extends Controller
     {
         // $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden('salary');
         $project =  Project::with('profiles')->orderBy('order', 'ASC')->get();
+        
         return response()->json(['projects' => $project]); 
     }
 
@@ -73,6 +83,8 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
+        
+
         $project = project::find($id);
         $profiles = Profile::with(['projects', 'technologies'])->get();
         $finalProfiles = [];
@@ -82,6 +94,25 @@ class ProjectsController extends Controller
                     $prof = $p->pivot->profile_id;
                     $final = Profile::with(['projects', 'technologies'])->where('id', $prof)->get();
                     array_push($finalProfiles, $final);
+                }
+            }
+        }
+
+        $index = SallaryModel::all();
+        $usd = $this->client->GetCurrency('USD');
+
+        if($finalProfiles){
+            foreach($finalProfiles as $pro){
+                foreach($pro as $pp){
+                    $intSallary = (int)$pp->salary;
+                    if($intSallary > 0) {
+                        $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
+                    }else{
+                        $sallary = 0;
+                    }
+                    if($sallary){
+                        $pp['net'] = $sallary;
+                    }
                 }
             }
         }

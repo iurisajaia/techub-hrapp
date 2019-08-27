@@ -6,9 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Technology;
 use App\Profile;
+use App\SallaryModel;
+use SoapClient;
 use Validator;
 class TechnologyController extends Controller
 {
+    protected $client;
+ 
+    public function __construct()
+    {
+        $this->client = new SoapClient('http://nbg.gov.ge/currency.wsdl');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -72,6 +81,25 @@ class TechnologyController extends Controller
                     $prof = $p->pivot->profile_id;
                     $final = Profile::with(['projects', 'technologies'])->where('id', $prof)->get();
                     array_push($finalProfiles, $final);
+                }
+            }
+        }
+
+        $index = SallaryModel::all();
+        $usd = $this->client->GetCurrency('USD');
+
+        if($finalProfiles){
+            foreach($finalProfiles as $pro){
+                foreach($pro as $pp){
+                    $intSallary = (int)$pp->salary;
+                    if($intSallary > 0) {
+                        $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
+                    }else{
+                        $sallary = 0;
+                    }
+                    if($sallary){
+                        $pp['net'] = $sallary;
+                    }
                 }
             }
         }

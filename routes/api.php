@@ -44,6 +44,17 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     // Sallary index
     Route::post('store-index', 'API\SallaryController@store'); // Add New Index
     Route::put('update-index/{id}', 'API\SallaryController@update'); // Add New Index
+    
+    
+    Route::post('new-person', 'API\PersonController@store'); // Add New Person
+
+
+    Route::post('new-client', 'API\ClientController@store'); // Add New Client
+
+
+
+
+    Route::post('new-p_c', 'API\Person_ClientController@store'); // Add New Person_Client
 });
 
 

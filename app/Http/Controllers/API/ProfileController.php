@@ -200,6 +200,7 @@ class ProfileController extends Controller
         $profile->status = $request->status;
         $profile->comment = $request->comment;
         $profile->updater_id = $request->updater_id;
+        $profile->feedback = $request->feedback;
 
         if($request->projects){
             $profile->projects()->sync($request->projects);

@@ -24,7 +24,8 @@ class CreateProfilesTable extends Migration
             $table->string('profile')->nullable();
             $table->longText('comment')->nullable(); 
             $table->string('portfolio')->nullable();      
-            $table->enum('english', ['good' , 'fluent' , 'no english'])->nullable()->nullable()->default('good');
+            $table->enum('english', ['good' , 'fluent' , 'no english'])->nullable()->default('good');
+            $table->enum('feedback', ['not returned' , 'returned'])->nullable();
             $table->string('salary')->nullable();
             $table->string('net')->nullable();
             $table->enum('source', ['linkedin' , 'refference' , 'job post'])->nullable()->default('linkedin');

@@ -107,23 +107,25 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
 
 
     // Position
-    Route::get('get-position', 'API\PositionController@index'); // Get Position
+    Route::get('get-positions', 'API\PositionController@index'); // Get Positions
 
 
-    // Position
-    Route::get('get-month', 'API\MonthController@index'); // Get Month
+    // Month
+    Route::get('get-months', 'API\MonthController@index'); // Get Month
 
 
     // Client
-    Route::get('get-client', 'API\ClientController@index'); // Get Client
+    Route::get('get-clients', 'API\ClientController@index'); // Get Clients
+    Route::get('get-client/{id}', 'API\ClientController@show'); // Get Client
 
 
     // Person
-    Route::get('get-person', 'API\PersonController@index'); // Get Person
+    Route::get('get-persons', 'API\PersonController@index'); // Get Persons
+    Route::get('get-person/{id}', 'API\PersonController@show'); // Get Person
 
 
     // Client Person
-    Route::get('get-cp', 'API\ClientPersonController@index'); // Get Client Person
+    Route::get('get-cps', 'API\ClientPersonController@index'); // Get Client Persons
 
 
     

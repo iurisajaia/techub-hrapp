@@ -70,7 +70,15 @@ class PersonController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $person = Person::where('id', $id)->with(['positions','clientpersons','clients'])->first();
+
+        if(!$person){
+            return response()->json('Person Not Found');
+        }
+        
+        return response()->json(['person' => $person]);
+        
     }
 
     /**

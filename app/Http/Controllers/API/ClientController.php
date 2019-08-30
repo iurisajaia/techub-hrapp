@@ -78,7 +78,21 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        $client = Client::where('id', $id)->with(['clientpersons','persons'])->first();
+
+        foreach($client->clientpersons as $cp){
+            foreach($client->persons as $person){
+                if($cp->person_id == $person->id){
+                    $cp->person == $person;
+                }
+            }
+        }
+        
+        if(!$client){
+            return response()->json('Client Not Found');
+        }
+        
+        return response()->json(['client' => $client]);
     }
 
     /**

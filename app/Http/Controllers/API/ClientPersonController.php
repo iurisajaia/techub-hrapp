@@ -5,9 +5,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-use App\Client_Person;
+use App\ClientPerson;
 
-class Person_ClientController extends Controller
+class ClientPersonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,8 @@ class Person_ClientController extends Controller
      */
     public function index()
     {
-        //
+        $client_person = ClientPerson::with(['client' , 'person' , 'month'])->where('person_id' , 1)->get();
+        return response()->json(['client_person' => $client_person]);
     }
 
     /**
@@ -38,8 +39,10 @@ class Person_ClientController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'type' => 'required',
-            'salary' => 'required|string'
+            'person_id' => 'required',
+            'client_id' => 'required',
+            'month_id' => 'required|max:2',
+            'type' => 'required'
         ]);
 
 
@@ -47,22 +50,30 @@ class Person_ClientController extends Controller
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
         
-        $client_person = Client_Person::create([
-            'type' => $request->type,
-            'salary' => $request->salary,
-            'sum' => $request->salary * 2
-        ]);
-
-        if($request->person_id){
-            $client_person->persons()->attach($request->person_id);
+        if($request->type){
+            $clientperson = ClientPerson::create([
+                'person_id' => $request->person_id,
+                'client_id' => $request->client_id,
+                'month_id' => $request->month_id,
+                'type' => $request->type,
+                'salary' => $request->salary
+            ]);
+        }else{
+           
+            $clientperson = ClientPerson::create([
+                'person_id' => $request->person_id,
+                'client_id' => $request->client_id,
+                'month_id' => $request->month_id,
+                'type' => $request->type,
+                'cost' => $request->cost,
+                'rate' => $request->rate,
+                'sum' => $request->cost * $request->rate
+            ]);
         }
-        if($request->client_id){
-            $client_person->clients()->attach($request->client_id);
-        }
         
         
         
-        return response()->json(['client_person' => $client_person]);
+        return response()->json(['client_person' => $clientperson]);
     }
 
     /**

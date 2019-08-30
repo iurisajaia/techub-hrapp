@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Persons;
+use App\Person;
 use Validator;
 class PersonController extends Controller
 {
@@ -15,7 +15,8 @@ class PersonController extends Controller
      */
     public function index()
     {
-        //
+        $persons = Person::with(['positions','clientpersons','clients'])->get();
+        return response()->json(['persons' => $persons]);
     }
 
     /**
@@ -38,8 +39,6 @@ class PersonController extends Controller
     {
         $validator = Validator::make($request->all(), [ 
             'name' => 'required|string|max:100',
-            'position' => 'required|string',
-            'salary' => 'required|string',
             'c_date' => 'required|string'
         ]);
 
@@ -48,13 +47,14 @@ class PersonController extends Controller
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
         
-        $person = Persons::create([
+        $person = Person::create([
             'name' => $request->name,
-            'position' => $request->position,
-            'salary' => $request->salary,
-            'ph' => $request->salary / 28,
             'c_date' => $request->c_date
         ]);
+
+        if($request->client){
+            $person->clients()->attach($request->client);
+        }
         
         
         

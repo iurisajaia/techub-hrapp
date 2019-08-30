@@ -5,10 +5,9 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-use App\Client;
-use App\ClientPerson;
+use App\Month;
 
-class ClientController extends Controller
+class MonthController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +16,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::with(['clientpersons', 'persons'])->get();
-        // $client_person = ClientPerson::with(['client' , 'person' , 'month'])->get();
-        return response()->json(['clients' => $clients]);
+        $months = Month::with(['clientpersons'])->get();
+        return response()->json(['months' => $months]);
     }
 
     /**
@@ -41,11 +39,7 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'name' => 'required|string|max:100',
-            'contact_person' => 'required|string',
-            'number' => 'required|string',
-            'end_date' => 'required|string',
-            'start_date' => 'required|string'
+            'name' => 'required|string|max:100'
         ]);
 
 
@@ -53,21 +47,11 @@ class ClientController extends Controller
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
         
-        $client = Client::create([
-            'name' => $request->name,
-            'contact_person' => $request->contact_person,
-            'number' => $request->number,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
+        $month = Month::create([
+            'name' => $request->name
         ]);
-
-        if($request->person){
-            $client->persons()->attach($request->person);
-        }
         
-        
-        
-        return response()->json(['client' => $client]);
+        return response()->json(['month' => $month]);
     }
 
     /**

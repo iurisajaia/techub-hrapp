@@ -46,15 +46,33 @@ Route::middleware(['auth:api' , 'ManagerOrAdmin' ])->group(function (){ // Only 
     Route::put('update-index/{id}', 'API\SallaryController@update'); // Add New Index
     
     
+
+    // Person
     Route::post('new-person', 'API\PersonController@store'); // Add New Person
+    
 
 
+
+    // Position
+    Route::post('new-position', 'API\PositionController@store'); // Add New Position
+
+
+
+    // Month
+    Route::post('new-month', 'API\MonthController@store'); // Add New Month
+
+    
+    
+    
+    // Client
     Route::post('new-client', 'API\ClientController@store'); // Add New Client
 
 
 
 
-    Route::post('new-p_c', 'API\Person_ClientController@store'); // Add New Person_Client
+
+    // Client_Person
+    Route::post('new-cp', 'API\ClientPersonController@store'); // Add New Client_Person
 });
 
 
@@ -86,6 +104,26 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
 
 
     Route::get('get-sallary', 'API\SallaryController@index'); // Get Sallary
+
+
+    // Position
+    Route::get('get-position', 'API\PositionController@index'); // Get Position
+
+
+    // Position
+    Route::get('get-month', 'API\MonthController@index'); // Get Month
+
+
+    // Client
+    Route::get('get-client', 'API\ClientController@index'); // Get Client
+
+
+    // Person
+    Route::get('get-person', 'API\PersonController@index'); // Get Person
+
+
+    // Client Person
+    Route::get('get-cp', 'API\ClientPersonController@index'); // Get Client Person
 
 
     

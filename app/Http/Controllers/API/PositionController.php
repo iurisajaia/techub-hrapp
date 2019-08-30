@@ -4,11 +4,9 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Position;
 use Validator;
-use App\Client;
-use App\ClientPerson;
-
-class ClientController extends Controller
+class PositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::with(['clientpersons', 'persons'])->get();
-        // $client_person = ClientPerson::with(['client' , 'person' , 'month'])->get();
-        return response()->json(['clients' => $clients]);
+        // $position = Position::with(['persons']);
+        $position = Position::with('person')->get();
+        return response()->json(['position' => $position]);
     }
 
     /**
@@ -41,11 +39,8 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
-            'name' => 'required|string|max:100',
-            'contact_person' => 'required|string',
-            'number' => 'required|string',
-            'end_date' => 'required|string',
-            'start_date' => 'required|string'
+            'position' => 'required|string',
+            'salary' => 'required'
         ]);
 
 
@@ -53,21 +48,20 @@ class ClientController extends Controller
                 return response()->json(['error'=>$validator->errors()], 400);            
         }
         
-        $client = Client::create([
-            'name' => $request->name,
-            'contact_person' => $request->contact_person,
-            'number' => $request->number,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date
+        $position = Position::create([
+            'position' => $request->position,
+            'salary' => $request->salary,
+            'ph' => $request->salary/22/8,
+            'person_id' => $request->person_id
         ]);
 
-        if($request->person){
-            $client->persons()->attach($request->person);
-        }
+       
+
         
         
         
-        return response()->json(['client' => $client]);
+        
+        return response()->json(['position' => $position]);
     }
 
     /**

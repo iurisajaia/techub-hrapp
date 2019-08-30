@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClientPersonTable extends Migration
+class CreatePersonTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateClientPersonTable extends Migration
      */
     public function up()
     {
-        Schema::create('client_person', function (Blueprint $table) {
+        Schema::create('person', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('type', ['month' , 'day'])->default('month');
-            $table->string('salary');
-            $table->string('sum');
+            $table->string('name');
+            $table->string('c_date');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateClientPersonTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('person__clients');
+        Schema::dropIfExists('person');
     }
 }

@@ -21,7 +21,10 @@ class CreateClientPersonTable extends Migration
             $table->boolean('type')->nullable();
             $table->string('cost')->nullable();
             $table->string('rate')->nullable();
-            $table->string('sum')->nullable();
+            $table->string('total')->nullable();
+            $table->string('profit')->nullable();
+            $table->string('percent')->nullable();
+            $table->string('hours')->nullable();
             $table->string('salary')->nullable();
             $table->timestamps();
         });

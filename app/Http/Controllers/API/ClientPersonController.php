@@ -67,7 +67,9 @@ class ClientPersonController extends Controller
                 'type' => $request->type,
                 'cost' => $request->cost,
                 'rate' => $request->rate,
-                'sum' => $request->cost * $request->rate
+                'hours' => $request->hours,
+                'total' => $request->hours * $request->rate,
+                'profit' => ($request->hours * $request->rate) - ($request->hours * $request->cost)
             ]);
         }
         

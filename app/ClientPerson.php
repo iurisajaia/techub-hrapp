@@ -9,7 +9,7 @@ class ClientPerson extends Model
     protected $table ='client_person';
 
     protected $fillable = [
-        'person_id' , 'client_id' , 'month_id' , 'type' , 'cost' , 'rate' , 'sum' , 'salary'
+        'person_id' , 'client_id' , 'month_id' , 'type' , 'cost' , 'rate' , 'total' , 'salary', 'profit', 'percent' ,'hours'
     ];
 
     

@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+$app->register(\Artesaos\LinkedIn\LinkedinServiceProvider::class);
+class_alias(\Artesaos\LinkedIn\Facades\LinkedIn::class,'LinkedIn');
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Person;
 use Validator;
+use Socialite;
 class PersonController extends Controller
 {
     /**
@@ -114,4 +115,6 @@ class PersonController extends Controller
     {
         //
     }
+
+
 }

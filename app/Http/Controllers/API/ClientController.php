@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 use App\Client;
 use App\ClientPerson;
-
+use Linkedin;
 class ClientController extends Controller
 {
     /**
@@ -17,6 +17,8 @@ class ClientController extends Controller
      */
     public function index()
     {
+        $link = LinkedIn::get('v1/people/~:(iuri-sajaia-b41245188 ,num-connections,picture-url)');
+
         $clients = Client::with(['clientpersons', 'persons'])->get();
         // $client_person = ClientPerson::with(['client' , 'person' , 'month'])->get();
         return response()->json(['clients' => $clients]);

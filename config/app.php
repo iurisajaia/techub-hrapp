@@ -163,6 +163,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Artisaninweb\SoapWrapper\ServiceProvider::class, 
+        Artesaos\LinkedIn\LinkedinServiceProvider::class,
+        
         /*
          * Package Service Providers...
          */
@@ -175,6 +177,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -227,7 +230,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'SoapWrapper' => Artisaninweb\SoapWrapper\Facade\SoapWrapper::class,  
-
+        'LinkedIn'  => \Artesaos\LinkedIn\Facades\LinkedIn::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

@@ -19,6 +19,11 @@ class Profile extends Model
     public function technologies(){
         return $this->belongsToMany(Technology::class);
     }
+
+    public function scopeSearchByProject($query){
+        return \DB::table('projects')
+        ->where('title','For Future');
+    }
     
     
 }

@@ -9,7 +9,8 @@ use App\SallaryModel;
 use SoapClient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use DB;
+use EloquentBuilder;
 class ProfileController extends Controller{
 
     protected $client;
@@ -19,44 +20,86 @@ class ProfileController extends Controller{
     }
 
 
-    // Filter Profiles By Advanced Filter
-    public function filter($name= null , $phone= null ,$position= null ,  $english= null , $salary= null ,$source = null , $status = null){
+    // Filter Profiles By Advanced
+    public function filter(Request $request){
 
-        if($name || $phone || $position || $english || $salary || $source || $status){
-        
-            $allProfile = Profile::query()
-            ->where('name', 'LIKE', '%'.$name.'%')
-            ->where('phone', 'LIKE', '%'.$phone.'%')
-            ->where('position', 'LIKE', '%'.$position.'%')
-            ->where('english', 'LIKE', '%'.$english.'%')
-            ->where('salary', 'LIKE', '%'.$salary.'%')
-            ->where('source', 'LIKE', '%'.$source.'%')
-            ->where('status', 'LIKE', '%'.$status.'%')
-            ->paginate(10);
-        }
+        $name = $request->name;
+        $phone = $request->phone;
+        $position = $request->position;
+        $english = $request->english;
+        $salary = $request->salary;
+        $source = $request->source;
+        $status = $request->status;
+        $projects = $request->projects;
+        $technologies = $request->technologies;
 
-        $usd = $this->client->GetCurrency('USD');
-            $index = SallaryModel::all();
-            foreach($allProfile as $profile){
-            $intSallary = (int)$profile->salary;
-                if($intSallary > 0) {
-                    $sallary = round((($intSallary/0.784)/(float)$usd) + $index[0]->index);
-                }else{
-                    $sallary = 0;
+
+        $reqArray = array("name"=>$name, "phone"=>$phone, "position"=>$position, "english"=>$english,"salary"=>$salary,"source"=> $source, "status"=> $status);
+
+            if($name || $phone || $position || $english || $salary || $source || $status){
+                $allProfiles = Profile::where(function ($query) use($reqArray) {
+                    foreach($reqArray as $key => $reqArr){
+                        if($reqArr !== null){
+                        $query->where($key, 'like', '%' . $reqArr . '%');
+                    }
                 }
-                if($sallary){
-                    $profile['net'] = $sallary;
+                })->get();
+            }else{
+                $allProfiles = array();
+            }
+
+            $arr = array();
+
+            if(!is_null($projects) || !is_null($technologies)){
+                $WithRelations = Profile::with(['projects' , 'technologies'])->get();
+
+                if(!empty($projects)){
+                    foreach($WithRelations as $key => $allProfile){
+                        foreach($allProfile['projects'] as $allProfileProject){
+                            foreach($projects as $project){
+                            if($allProfileProject['id'] == $project['id']){
+                                array_push($arr,$allProfile);
+                            }
+                        }
+                    } 
+                    }
+                }
+
+                if(!empty($technologies)){
+                    foreach($WithRelations as $allProfile){
+                        foreach($allProfile['technologies'] as $allProfiletechnology){
+                            foreach($technologies as $technology){
+                                if($allProfiletechnology['id'] == $technology['id']){
+                                    array_push($arr,$allProfile);
+                                    
+                                }
+                            }
+                        } 
+                    }
+                }
+
+            }
+
+            $finalArray = array();
+            
+            if(!is_null($allProfiles)){
+                foreach($allProfiles as $allprof){
+                    array_push($finalArray , $allprof);
                 }
             }
-    
-        if(auth()->user()->isManager()){
-            $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden(['salary' , 'net']);
-            return response()->json(['profiles' => $profile]);
-        }
-        else {
-            return response()->json(['profiles' => $allProfile ]);
-        }
+            
+            if(!empty($arr)){
+                foreach($arr as $arrprof){
+                    array_push($finalArray , $arrprof);
+                }
+            }
+            
+          
 
+            
+         
+            
+            return response()->json(['profiles' => array_unique($finalArray)]);
 
     }
 
@@ -211,25 +254,9 @@ class ProfileController extends Controller{
 
     // Update Profile
     public function update(Request $request, $id){
-
         $profile = Profile::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [ 
-            'name' => 'required|string|max:100',
-            'position' => 'string',
-            'profile' => 'string',
-            'comment' => 'string',
-            'salary' => 'string',
-            'source' => 'string',
-            'status' => 'string',
-            'author_id' => 'integer'
-        ]);
-
-        if ($validator->fails()) { 
-                return response()->json(['error'=>$validator->errors()], 400);            
-        }
-
-
+        
         $profile->name = $request->name;
         $profile->phone = $request->phone;
         $profile->position = $request->position;
@@ -250,6 +277,7 @@ class ProfileController extends Controller{
         if($request->technologies){
             $profile->technologies()->sync($request->technologies);
         }
+        
                 
         
 

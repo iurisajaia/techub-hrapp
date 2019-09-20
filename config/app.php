@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Fouladgar\EloquentBuilder\ServiceProvider::class,
 
     ],
 
@@ -232,6 +233,7 @@ return [
         'SoapWrapper' => Artisaninweb\SoapWrapper\Facade\SoapWrapper::class,  
         'LinkedIn'  => \Artesaos\LinkedIn\Facades\LinkedIn::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        "EloquentBuilder" => Fouladgar\EloquentBuilder\Facade::class,
     ],
 
 ];

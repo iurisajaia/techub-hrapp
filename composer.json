@@ -12,11 +12,13 @@
         "artesaos/laravel-linkedin": "^1.3",
         "artisaninweb/laravel-soap": "0.3.0.9",
         "barryvdh/laravel-cors": "^0.11.3",
+        "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/passport": "^7.4",
         "laravel/socialite": "^4.2",
         "laravel/tinker": "^1.0",
+        "mohammad-fouladgar/eloquent-builder": "^1.1",
         "nesbot/carbon": "^2.18"
     },
     "require-dev": {

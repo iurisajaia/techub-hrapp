@@ -86,7 +86,7 @@ Route::middleware(['auth:api' , 'user' ])->group(function (){ // Only For Admin
     
     // Profile Managment
     Route::get('all-profiles/{value?}', 'API\ProfileController@index'); // Get All Profile
-    Route::get('filter-profiles/{name?}/{phone?}/{position?}/{english?}/{salary?}/{source?}/{status?}', 'API\ProfileController@filter'); // Get All Profile
+    Route::post('filter-profiles', 'API\ProfileController@filter'); // Get All Profile
     Route::get('profile/{id}', 'API\ProfileController@show'); // Single Profile View
     Route::get('get-profile/date/{date}' , 'API\ProfileController@date'); // Get Profiles With Date
     Route::get('get-black-list' , 'API\ProfileController@black'); // Get Black List

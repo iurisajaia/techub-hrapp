@@ -33,131 +33,164 @@ class ProfileController extends Controller{
         $projects = $request->projects;
         $technologies = $request->technologies;
 
+        $value = $request->value;
+
+
 
         $reqArray = array("name"=>$name, "phone"=>$phone, "position"=>$position, "english"=>$english,"salary"=>$salary,"source"=> $source, "status"=> $status);
 
-            if($name || $phone || $position || $english || $salary || $source || $status){
-                $allProfiles = Profile::where(function ($query) use($reqArray) {
-                    foreach($reqArray as $key => $reqArr){
-                        if($reqArr !== null){
-                        $query->where($key, 'like', '%' . $reqArr . '%');
+        $WithRelations = Profile::with(['projects' , 'technologies'])->get();
+
+        if($value){
+            $terms = explode(" ", $value);
+            
+            $ValueProfiles = Profile::query()
+            ->whereHas('projects', function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    // Loop over the terms and do a search for each.
+                    $query->where('title', 'like', '%' . $term . '%');
+                }
+            })
+            ->orWhere(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    $query->where('name', 'like', '%' . $term . '%');
+                }
+            })
+            ->orWhere(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    $query->where('phone', 'like', '%' . $term . '%');
+                }
+            })
+            ->orWhere(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    $query->where('position', 'like', '%' . $term  . '%');
+                }
+            })
+            ->orWhere(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    $query->where('english', 'like', '%' . $term  . '%');
+                }
+            })
+            ->orWhere(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    $query->where('salary', 'like', '%' . $term  . '%');
+                }
+            })
+            ->orWhere(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    $query->where('source', 'like', '%' . $term  . '%');
+                }
+            })
+            ->orWhere(function ($query) use ($terms) {
+                foreach ($terms as $term) {
+                    $query->where('status', 'like', '%' . $term  . '%');
+                }
+            })
+            ->get();
+
+            $allProfile = array();
+
+            foreach($ValueProfiles as $valp){
+                foreach($WithRelations as $wrp){
+                    if($valp->id == $wrp->id){
+                        array_push($allProfile, $wrp);
                     }
                 }
-                })->get();
-            }else{
-                $allProfiles = array();
             }
 
-            $arr = array();
+            return response()->json(['profiles' => $allProfile]);
 
-            if(!is_null($projects) || !is_null($technologies)){
-                $WithRelations = Profile::with(['projects' , 'technologies'])->get();
+        }
 
-                if(!empty($projects)){
-                    foreach($WithRelations as $key => $allProfile){
-                        foreach($allProfile['projects'] as $allProfileProject){
-                            foreach($projects as $project){
+        if($name || $phone || $position || $english || $salary || $source || $status){
+            $AllProf = Profile::where(function ($query) use($reqArray) {
+                foreach($reqArray as $key => $reqArr){
+                    if($reqArr !== null){
+                    $query->where($key, 'like', '%' . $reqArr . '%');
+                }
+            }
+            })->get();
+    
+            
+            $allProfiles = array();
+
+            foreach($AllProf as $ap){
+                foreach($WithRelations as $wr){
+                    if($ap->id === $wr->id){
+                        array_push($allProfiles , $wr);
+                    }
+                }
+            }
+
+        }else{
+            $allProfiles = array();
+        }
+
+        $arr = array();
+        
+        if(!is_null($projects) || !is_null($technologies)){
+            // Get Projects
+            if(!empty($projects)){
+                foreach($WithRelations as $key => $allProfile){
+                    foreach($allProfile['projects'] as $allProfileProject){
+                        foreach($projects as $project){
                             if($allProfileProject['id'] == $project['id']){
                                 array_push($arr,$allProfile);
                             }
                         }
                     } 
-                    }
                 }
-
-                if(!empty($technologies)){
-                    foreach($WithRelations as $allProfile){
-                        foreach($allProfile['technologies'] as $allProfiletechnology){
-                            foreach($technologies as $technology){
-                                if($allProfiletechnology['id'] == $technology['id']){
-                                    array_push($arr,$allProfile);
-                                    
-                                }
+            }
+            
+            // Get Technologies
+            if(!empty($technologies)){
+                foreach($WithRelations as $allProfile){
+                    foreach($allProfile['technologies'] as $allProfiletechnology){
+                        foreach($technologies as $technology){
+                            if($allProfiletechnology['id'] == $technology['id']){
+                                array_push($arr,$allProfile);
+                                
                             }
-                        } 
-                    }
-                }
-
-            }
-
-            $finalArray = array();
-            
-            if(!is_null($allProfiles)){
-                foreach($allProfiles as $allprof){
-                    array_push($finalArray , $allprof);
+                        }
+                    } 
                 }
             }
             
-            if(!empty($arr)){
-                foreach($arr as $arrprof){
-                    array_push($finalArray , $arrprof);
-                }
+        }
+        
+        $finalArray = array();
+        
+        if(!is_null($allProfiles)){
+            foreach($allProfiles as $allprof){
+                array_push($finalArray , $allprof);
             }
-            
-          
+        }
+        
+        if(!empty($arr)){
+            foreach($arr as $arrprof){
+                array_push($finalArray , $arrprof);
+            }
+        }
+        
+        $uniQueArr = array_unique($finalArray);
 
-            
-         
-            
-            return response()->json(['profiles' => array_unique($finalArray)]);
+        $finArr = array();
+
+        foreach($uniQueArr as $ua){
+            array_push($finArr , $ua);
+        }
+
+
+            return response()->json(['profiles' => $finArr]);
 
     }
 
 
     // Get Profiles
-    public function index($value = null ){
+    public function index(){
 
-        if($value){
-                $terms = explode(" ", $value);
-                
-                
-                $allProfile = Profile::query()
-                ->whereHas('projects', function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        // Loop over the terms and do a search for each.
-                        $query->where('title', 'like', '%' . $term . '%');
-                    }
-                })
-                ->orWhere(function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        $query->where('name', 'like', '%' . $term . '%');
-                    }
-                })
-                ->orWhere(function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        $query->where('phone', 'like', '%' . $term . '%');
-                    }
-                })
-                ->orWhere(function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        $query->where('position', 'like', '%' . $term  . '%');
-                    }
-                })
-                ->orWhere(function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        $query->where('english', 'like', '%' . $term  . '%');
-                    }
-                })
-                ->orWhere(function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        $query->where('salary', 'like', '%' . $term  . '%');
-                    }
-                })
-                ->orWhere(function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        $query->where('source', 'like', '%' . $term  . '%');
-                    }
-                })
-                ->orWhere(function ($query) use ($terms) {
-                    foreach ($terms as $term) {
-                        $query->where('status', 'like', '%' . $term  . '%');
-                    }
-                })
-                ->paginate(100);
-        }
-        else{
         $allProfile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->paginate(100);
-        }
+        
 
         $usd = $this->client->GetCurrency('USD');
         $index = SallaryModel::all();
@@ -173,13 +206,13 @@ class ProfileController extends Controller{
             }
         }
     
-        if(auth()->user()->isManager()){
-            $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden(['salary' , 'net']);
-            return response()->json(['profiles' => $profile]);
-        }
-        else {
+        // if(auth()->user()->isManager()){
+        //     $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden(['salary' , 'net']);
+        //     return response()->json(['profiles' => $profile]);
+        // }
+        // else {
             return response()->json(['profiles' => $allProfile ]);
-        }
+        // }
 
     }
 

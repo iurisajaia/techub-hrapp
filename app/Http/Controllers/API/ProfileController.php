@@ -32,6 +32,7 @@ class ProfileController extends Controller{
         $status = $request->status;
         $projects = $request->projects;
         $technologies = $request->technologies;
+        $noprojects = $request->noprojects;
 
         $value = $request->value;
 
@@ -100,6 +101,17 @@ class ProfileController extends Controller{
 
             return response()->json(['profiles' => $allProfile]);
 
+        }
+
+        if($noprojects){
+            $emptyProjectsProfiles = array();
+
+            foreach($WithRelations as $wrpr){
+                    if(count($wrpr->projects) === 0){
+                        array_push($emptyProjectsProfiles , $wrpr);
+                    }
+            }
+            return response()->json(['profiles' => $emptyProjectsProfiles]);
         }
 
         if($name || $phone || $position || $english || $salary || $source || $status){

@@ -192,16 +192,14 @@ class ProfileController extends Controller{
             array_push($finArr , $ua);
         }
 
-
-            return response()->json(['profiles' => $finArr]);
+        return response()->json(['profiles' => $finArr]);
 
     }
-
 
     // Get Profiles
     public function index(){
 
-        $allProfile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->paginate(100);
+        $allProfile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get();
         
 
         $usd = $this->client->GetCurrency('USD');
@@ -217,14 +215,8 @@ class ProfileController extends Controller{
                 $profile['net'] = $sallary;
             }
         }
-    
-        // if(auth()->user()->isManager()){
-        //     $profile = Profile::with(['projects', 'technologies'])->orderByRaw("FIELD(status , 'shortlisted') DESC")->get()->makeHidden(['salary' , 'net']);
-        //     return response()->json(['profiles' => $profile]);
-        // }
-        // else {
-            return response()->json(['profiles' => $allProfile ]);
-        // }
+      
+        return response()->json(['profiles' => $allProfile ]);
 
     }
 
